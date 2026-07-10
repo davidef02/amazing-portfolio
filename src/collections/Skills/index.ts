@@ -2,11 +2,11 @@ import type { CollectionConfig } from "payload";
 import { slugField } from "@/fields/slugField";
 
 export const Skills: CollectionConfig = {
-  slug: "skills",
+  slug: "Skills",
 
   labels: {
-    singular: "skill",
-    plural: "skills",
+    singular: "Skill",
+    plural: "Skills",
   },
 
   fields: [

@@ -16,7 +16,10 @@ export const defaultLexical = lexicalEditor({
     BoldFeature(),
     ItalicFeature(),
     LinkFeature({
-      enabledCollections: ['pages', 'posts'],
+      // Svuotato temporaneamente perché non abbiamo più Pages e Posts.
+      // Potrai riattivarlo aggiungendo 'projects' quando avrai creato la collezione:
+      // enabledCollections: ['projects'],
+      enabledCollections: [],
       fields: ({ defaultFields }) => {
         const defaultFieldsWithoutUrl = defaultFields.filter((field) => {
           if ('name' in field && field.name === 'url') return false
