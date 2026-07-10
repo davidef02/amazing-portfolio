@@ -1,21 +1,43 @@
-build
-dist / media
-node_modules
-.DS_Store
-.env
-.next
-next-env.d.ts
-.vercel
+# Dipendenze
+/node_modules
+/.pnp
+.pnp.js
 
-# Payload default media upload directory
+# File temporanei ed eseguibili di Next.js
+/.next/
+/out/
+/build
+dist/
+
+# File di ambiente e chiavi segrete (FONDAMENTALE per il DB Supabase)
+.env
+.env*.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# File Media di Payload (di default non vanno pushati se usi cloud storage, altrimenti sì)
 public/media/
 
-public/robots.txt
-public/sitemap*.xml
+# File di Log e Debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
 
+# File generati dal Sistema Operativo (Mac/Windows)
+.DS_Store
+Thumbs.db
+
+# File di cache di TypeScript e ESLint
+*.tsbuildinfo
+.eslintcache
+
+# Tooling (es. Vercel)
+.vercel
+next-env.d.ts
 
 # Playwright
-node_modules/
 /test-results/
 /playwright-report/
 /blob-report/
