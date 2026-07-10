@@ -1,5 +1,11 @@
-import PageTemplate, { generateMetadata } from './[slug]/page'
+import React from 'react'
 
-export default PageTemplate
-
-export { generateMetadata }
+export default async function Page() {
+  return (
+    <main className="min-h-screen flex items-center justify-center bg-neo-bg text-black font-sans">
+      <h1 className="text-4xl font-black uppercase border-4 border-black p-4 bg-neo-yellow shadow-neo">
+        In Costruzione
+      </h1>
+    </main>
+  )
+}

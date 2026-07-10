@@ -1,61 +1,79 @@
-import { cn } from '@/utilities/ui'
-import * as React from 'react'
+import * as React from "react"
+import { cva, type VariantProps } from "class-variance-authority"
+import { cn } from "@/lib/utils"
 
-const Card: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({ className, ...props }) => {
-  return (
+const cardVariants = cva(
+    "rounded-base border-2 border-black bg-white text-black shadow-brutal",
+    {
+        variants: {
+            variant: {
+                default: "",
+            },
+        },
+        defaultVariants: {
+            variant: "default",
+        },
+    }
+)
+
+export type CardProps = React.HTMLAttributes<HTMLDivElement> & VariantProps<typeof cardVariants>
+
+const Card = React.forwardRef<HTMLDivElement, CardProps>(
+    ({ className, variant, ...props }, ref) => (
+        <div
+            ref={ref}
+            className={cn(cardVariants({ variant }), "p-4", className)}
+            {...props}
+        />
+    )
+)
+Card.displayName = "Card"
+
+const CardHeader = React.forwardRef<
+    HTMLDivElement,
+    React.HTMLAttributes<HTMLDivElement>
+>(({ className, ...props }, ref) => (
     <div
-      data-slot="card"
-      className={cn('bg-card text-card-foreground rounded-lg border shadow-sm', className)}
-      {...props}
+        ref={ref}
+        className={cn("flex flex-col space-y-1.5 pb-2", className)}
+        {...props}
     />
-  )
-}
+))
+CardHeader.displayName = "CardHeader"
 
-const CardHeader: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({ className, ...props }) => {
-  return (
-    <div
-      data-slot="card-header"
-      className={cn('flex flex-col gap-1.5 p-6', className)}
-      {...props}
-    />
-  )
-}
-
-const CardTitle: React.FC<React.HTMLAttributes<HTMLHeadingElement>> = ({ className, ...props }) => {
-  return (
+const CardTitle = React.forwardRef<
+    HTMLHeadingElement,
+    React.HTMLAttributes<HTMLHeadingElement>
+>(({ className, ...props }, ref) => (
     <h3
-      data-slot="card-title"
-      className={cn('text-2xl leading-none font-semibold tracking-tight', className)}
-      {...props}
+        ref={ref}
+        className={cn(
+            "text-2xl font-bold",
+            className
+        )}
+        {...props}
     />
-  )
-}
+))
+CardTitle.displayName = "CardTitle"
 
-const CardDescription: React.FC<React.HTMLAttributes<HTMLParagraphElement>> = ({
-  className,
-  ...props
-}) => {
-  return (
-    <p
-      data-slot="card-description"
-      className={cn('text-muted-foreground text-sm', className)}
-      {...props}
-    />
-  )
-}
+const CardContent = React.forwardRef<
+    HTMLDivElement,
+    React.HTMLAttributes<HTMLDivElement>
+>(({ className, ...props }, ref) => (
+    <div ref={ref} className={cn(className)} {...props} />
+))
+CardContent.displayName = "CardContent"
 
-const CardContent: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({ className, ...props }) => {
-  return <div data-slot="card-content" className={cn('p-6 pt-0', className)} {...props} />
-}
-
-const CardFooter: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({ className, ...props }) => {
-  return (
+const CardFooter = React.forwardRef<
+    HTMLDivElement,
+    React.HTMLAttributes<HTMLDivElement>
+>(({ className, ...props }, ref) => (
     <div
-      data-slot="card-footer"
-      className={cn('flex items-center p-6 pt-0', className)}
-      {...props}
+        ref={ref}
+        className={cn("flex items-center pt-6", className)}
+        {...props}
     />
-  )
-}
+))
+CardFooter.displayName = "CardFooter"
 
-export { Card, CardHeader, CardFooter, CardTitle, CardDescription, CardContent }
+export { Card, CardHeader, CardFooter, CardTitle, CardContent, cardVariants }
