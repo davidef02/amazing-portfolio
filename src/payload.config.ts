@@ -9,6 +9,7 @@ import { Users } from "./collections/Users";
 import { plugins } from "./plugins";
 import { defaultLexical } from "@/fields/defaultLexical";
 import { getServerSideURL } from "./utilities/getURL";
+import { Projects } from "./collections/Projects";
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
@@ -57,7 +58,7 @@ export default buildConfig({
       connectionString: process.env.DATABASE_URL || "",
     },
   }),
-  collections: [Media, Users, Skills],
+  collections: [Media, Users, Skills, Projects],
   cors: [getServerSideURL()].filter(Boolean),
   globals: [],
   plugins,
