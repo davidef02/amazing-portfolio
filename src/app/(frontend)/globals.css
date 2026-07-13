@@ -1,37 +1,96 @@
 @import "tailwindcss";
 
 :root {
-  /* fallback: admin panel + primo render pre-fetch */
-  --yellow: #ffdc58;
-  --green: #7cf03d;
-  --blue: #88aaee;
-  --red: #ff6b6b;
-  --main: var(--yellow);
-  --bg: #f0eefc;
-  --white: #fff;
-  --black: #000;
+  /* ---- 4 slot tematizzabili da SiteConfig ----
+     layout.tsx sovrascrive questi su <body style> con gli hex dal global.
+     I valori qui sono solo FALLBACK (primo render / hex mancante): */
+  --yellow: #fef08a; /* lemon */
+  --green: #a7f3d0; /* mint */
+  --red: #fba1d3; /* hot-pink */
+  --blue: #b6ace4; /* purple (main di default) */
+
+  /* main = lo slot scelto in SiteConfig (mainColor).
+     Fallback = blue */
+  --main: var(--blue);
+
+  /*!* ---- alias semantici del design -> slot tematizzabili ----*/
+  --lemon: var(--yellow);
+  --mint: var(--green);
+  --hot-pink: var(--red);
+
+  /* ---- struttura neobrutal fissa (non tematizzata) ---- */
+  --background: #f0eefc; /* page bg (light lavender) */
+  --secondary-background: #ffffff; /* surfaces / cards */
+  --foreground: #000000; /* ink / testo / bordi */
+  --main-foreground: #000000; /* testo sopra l'accent */
+  --border: #000000;
+  --ring: #000000;
+  --overlay: rgba(0, 0, 0, 0.8);
+
+  /* shadow neobrutal (hard, no blur) */
+  --shadow: 4px 4px 0px 0px var(--border); /* base */
+  --shadow-lg: 6px 6px 0px 0px var(--border); /* hover */
+
   --radius: 5px;
-  --shadow-brutal: 4px 4px 0px 0px var(--black);
+
+  /* alias legacy usati dai componenti gia' presenti */
+  --bg: var(--background);
+  --white: var(--secondary-background);
+  --black: var(--foreground);
 }
 
 @theme inline {
-  /* in line perché usiamo le variabili statiche definite in :root */
+  /* in line: usiamo le variabili statiche definite in :root */
+
+  /* ---- colori (namespace --color-* -> bg-/text-/border-) ---- */
+  /* nomi nativi neobrutalism (usati dai componenti as-is) */
+  --color-main: var(--main);
+  --color-background: var(--background);
+  --color-secondary-background: var(--secondary-background);
+  --color-foreground: var(--foreground);
+  --color-main-foreground: var(--main-foreground);
+  --color-border: var(--border);
+  --color-ring: var(--ring);
+  --color-overlay: var(--overlay);
+
+  /* accenti design (alias -> slot tematizzabili) */
+  --color-mint: var(--mint);
+  --color-lemon: var(--lemon);
+  --color-hot-pink: var(--hot-pink);
+
+  /* slot tematizzabili grezzi (usati da BG map in const/colors.ts) */
   --color-yellow: var(--yellow);
   --color-green: var(--green);
   --color-blue: var(--blue);
   --color-red: var(--red);
-  --color-main: var(--main);
+
+  /* alias legacy */
   --color-bg: var(--bg);
   --color-white: var(--white);
   --color-black: var(--black);
+
+  /* ---- raggio ---- */
   --radius-base: var(--radius);
+
+  /* ---- shadow (namespace --shadow-* -> shadow-) ---- */
+  --shadow-shadow: var(--shadow); /* nome nativo neobrutalism */
+  --shadow-brutal: var(--shadow); /* usato da button/card gia' presenti */
+  --shadow-brutal-lg: var(--shadow-lg);
+
+  /* ---- pesi font (namespace --font-weight-* -> font-) ---- */
+  --font-weight-base: 500;
+  --font-weight-heading: 700;
+
+  /* ---- font family (var-* iniettate da next/font su <html>) ---- */
+  --font-sans: var(--font-geist-sans), system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, Menlo, monospace;
 }
 
 @utility focus-brutal {
   outline: none;
   box-shadow:
-    0 0 0 2px var(--black),
-    0 0 0 4px var(--white);
+    0 0 0 2px var(--secondary-background),
+    0 0 0 4px var(--foreground);
 }
 
 @utility transition-brutal {
@@ -39,7 +98,6 @@
 }
 
 body {
-  /* applica lo stile definito di bg e text dentro
-     theme su tutta quanta la pagina */
-  @apply bg-bg text-black;
+  /* font Geist + bg + testo + peso base su tutta la pagina */
+  @apply bg-background text-foreground font-sans font-base;
 }

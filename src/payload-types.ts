@@ -650,6 +650,10 @@ export interface SiteConfig {
     metaTitle: string;
     metaDescription: string;
     metaLink: string;
+    /**
+     * Consigliato 1200×630px. Anteprima quando condividi il link
+     */
+    metaImage: number | Media;
   };
   favicon: number | Media;
   updatedAt?: string | null;
@@ -761,6 +765,7 @@ export interface SiteConfigSelect<T extends boolean = true> {
         metaTitle?: T;
         metaDescription?: T;
         metaLink?: T;
+        metaImage?: T;
       };
   favicon?: T;
   updatedAt?: T;

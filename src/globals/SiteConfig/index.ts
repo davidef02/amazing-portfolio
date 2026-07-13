@@ -1,5 +1,5 @@
 import type { GlobalConfig } from "payload";
-import { THEME_COLORS } from "@/const/colors";
+import { THEME_COLORS, THEME_COLOR_LABELS } from "@/const/colors";
 
 export const SiteConfig: GlobalConfig = {
   slug: "siteConfig",
@@ -14,7 +14,7 @@ export const SiteConfig: GlobalConfig = {
           name: "mainColor",
           label: "Main color",
           type: "select",
-          options: [...THEME_COLORS],
+          options: THEME_COLORS.map((c) => ({ label: THEME_COLOR_LABELS[c], value: c })),
           defaultValue: "yellow",
           required: true,
         },
@@ -24,6 +24,7 @@ export const SiteConfig: GlobalConfig = {
           type: "group",
           fields: THEME_COLORS.map((c) => ({
             name: c,
+            label: THEME_COLOR_LABELS[c],
             type: "text" as const,
             required: true,
             validate: (v: string | null | undefined) =>
@@ -44,6 +45,15 @@ export const SiteConfig: GlobalConfig = {
         { name: "metaTitle", type: "text", required: true },
         { name: "metaDescription", type: "text", required: true },
         { name: "metaLink", type: "text", required: true },
+        {
+          name: "metaImage",
+          type: "upload",
+          relationTo: "media",
+          required: true,
+          admin: {
+            description: "Consigliato 1200×630px. Anteprima quando condividi il link",
+          },
+        },
       ],
     },
     {
