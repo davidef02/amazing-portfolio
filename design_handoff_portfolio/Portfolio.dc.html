@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400..900&display=swap" rel="stylesheet">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<style>
+body{margin:0;background:#f0eefc;color:#000;font-family:'Geist',system-ui,-apple-system,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:#000}
+a:hover{color:#000}
+::selection{background:#B6ACE4}
+@media (prefers-reduced-motion: reduce){*{transition:none !important;scroll-behavior:auto !important}}
+</style>
+</helmet>
+
+<!-- ============ STICKY HEADER ============ -->
+<div style="height:74px"></div>
+<div style="position:fixed;top:12px;left:0;right:0;z-index:1000;padding:0 16px">
+  <header style="max-width:1100px;margin:0 auto;background:#ffffff;border:2px solid #000;border-radius:5px;box-shadow:4px 4px 0 0 #000;display:flex;align-items:center;justify-content:space-between;padding:10px 14px;gap:12px">
+    <a href="#hero" onClick="{{ onBrandClick }}" style="font-weight:900;text-transform:uppercase;letter-spacing:0.5px;font-size:17px;text-decoration:none;color:#000;display:flex;align-items:center;gap:9px">
+      <span style="width:20px;height:20px;background:var(--accent,#B6ACE4);border:2px solid #000;border-radius:5px;display:inline-block;flex:none"></span>
+      <span>Alex Morgan</span>
+    </a>
+    <sc-if value="{{ isDesktop }}" hint-placeholder-val="{{ true }}">
+      <nav aria-label="Sections" style="display:flex;gap:10px">
+        <sc-for list="{{ navItems }}" as="item" hint-placeholder-count="4">
+          <button onClick="{{ item.onClick }}" style="font-family:inherit;font-weight:800;text-transform:uppercase;font-size:12.5px;letter-spacing:0.6px;padding:8px 14px;background:{{ item.bg }};color:#000;border:2px solid #000;border-radius:5px;box-shadow:4px 4px 0 0 #000;cursor:pointer;transition:transform 200ms ease,box-shadow 200ms ease" style-hover="transform:translate(-2px,-2px);box-shadow:6px 6px 0 0 #000" style-active="transform:translate(0,0);box-shadow:0 0 0 0 #000" style-focus="outline:none;box-shadow:0 0 0 2px #fff,0 0 0 4px #000">{{ item.label }}</button>
+        </sc-for>
+      </nav>
+    </sc-if>
+    <sc-if value="{{ isMobile }}" hint-placeholder-val="{{ false }}">
+      <button onClick="{{ toggleMenu }}" aria-label="Toggle menu" aria-expanded="{{ menuOpenStr }}" style="display:flex;flex-direction:column;gap:4px;justify-content:center;align-items:center;width:44px;height:44px;background:var(--accent,#B6ACE4);border:2px solid #000;border-radius:5px;box-shadow:4px 4px 0 0 #000;cursor:pointer;transition:transform 200ms ease,box-shadow 200ms ease" style-hover="transform:translate(-2px,-2px);box-shadow:6px 6px 0 0 #000" style-active="transform:translate(0,0);box-shadow:0 0 0 0 #000" style-focus="outline:none;box-shadow:0 0 0 2px #fff,0 0 0 4px #000">
+        <span style="width:18px;height:2.5px;background:#000;display:block"></span>
+        <span style="width:18px;height:2.5px;background:#000;display:block"></span>
+        <span style="width:18px;height:2.5px;background:#000;display:block"></span>
+      </button>
+    </sc-if>
+  </header>
+  <sc-if value="{{ menuOpen }}" hint-placeholder-val="{{ false }}">
+    <div style="max-width:1100px;margin:10px auto 0;background:#ffffff;border:2px solid #000;border-radius:5px;box-shadow:4px 4px 0 0 #000;display:flex;flex-direction:column;gap:10px;padding:12px">
+      <sc-for list="{{ navItems }}" as="item" hint-placeholder-count="4">
+        <button onClick="{{ item.onClick }}" style="font-family:inherit;font-weight:800;text-transform:uppercase;font-size:14px;letter-spacing:0.6px;padding:12px 14px;background:{{ item.bg }};color:#000;border:2px solid #000;border-radius:5px;cursor:pointer;text-align:left;transition:transform 200ms ease,box-shadow 200ms ease" style-hover="transform:translate(-2px,-2px);box-shadow:6px 6px 0 0 #000" style-active="transform:translate(0,0);box-shadow:0 0 0 0 #000" style-focus="outline:none;box-shadow:0 0 0 2px #fff,0 0 0 4px #000">{{ item.label }}</button>
+      </sc-for>
+    </div>
+  </sc-if>
+</div>
+
+<!-- ============ HERO ============ -->
+<section id="hero" data-screen-label="Hero" style="max-width:1100px;margin:0 auto;padding:64px 16px 48px">
+  <div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:20px">
+    <span style="display:inline-block;background:#FEF08A;border:2px solid #000;border-radius:5px;box-shadow:4px 4px 0 0 #000;padding:6px 12px;font-weight:800;text-transform:uppercase;font-size:12px;letter-spacing:0.8px;transform:rotate(-2deg)">Open to work</span>
+    <span style="display:inline-block;background:#A7F3D0;border:2px solid #000;border-radius:5px;box-shadow:4px 4px 0 0 #000;padding:6px 12px;font-weight:800;text-transform:uppercase;font-size:12px;letter-spacing:0.8px;transform:rotate(1.5deg)">Portfolio · 2026</span>
+  </div>
+  <div style="background:var(--accent,#B6ACE4);border:4px solid #000;border-radius:5px;box-shadow:4px 4px 0 0 #000;padding:clamp(24px,4vw,44px)">
+    <h1 style="margin:0;font-weight:900;text-transform:uppercase;line-height:0.95;font-size:clamp(52px,9vw,112px);letter-spacing:-0.02em">Alex<br>Morgan</h1>
+  </div>
+  <p style="margin:26px 0 12px;font-weight:900;text-transform:uppercase;font-size:clamp(17px,2.4vw,24px);letter-spacing:0.3px">Design engineer — I build playful interfaces that ship.</p>
+  <p style="margin:0;max-width:620px;font-size:16px;line-height:1.6;font-weight:500">I'm a placeholder bio: a developer-designer hybrid who turns messy product ideas into crisp, accessible UI. Currently prototyping design systems, drag-and-drop tools, and other things with too many borders. Previously at Placeholder Co. and Example Labs.</p>
+  <div style="display:flex;gap:14px;flex-wrap:wrap;margin-top:28px">
+    <button onClick="{{ goProjects }}" style="font-family:inherit;font-weight:900;text-transform:uppercase;font-size:15px;letter-spacing:0.6px;padding:14px 22px;background:#000;color:#fff;border:2px solid #000;border-radius:5px;box-shadow:4px 4px 0 0 #000;cursor:pointer;transition:transform 200ms ease,box-shadow 200ms ease" style-hover="transform:translate(-2px,-2px);box-shadow:6px 6px 0 0 #000" style-active="transform:translate(0,0);box-shadow:0 0 0 0 #000" style-focus="outline:none;box-shadow:0 0 0 2px #fff,0 0 0 4px #000">View projects →</button>
+    <button onClick="{{ goContact }}" style="font-family:inherit;font-weight:900;text-transform:uppercase;font-size:15px;letter-spacing:0.6px;padding:14px 22px;background:#ffffff;color:#000;border:2px solid #000;border-radius:5px;box-shadow:4px 4px 0 0 #000;cursor:pointer;transition:transform 200ms ease,box-shadow 200ms ease" style-hover="transform:translate(-2px,-2px);box-shadow:6px 6px 0 0 #000" style-active="transform:translate(0,0);box-shadow:0 0 0 0 #000" style-focus="outline:none;box-shadow:0 0 0 2px #fff,0 0 0 4px #000">Get in touch</button>
+  </div>
+</section>
+
+<!-- ============ SKILLS ============ -->
+<section id="skills" data-screen-label="Skills" style="max-width:1100px;margin:0 auto;padding:48px 16px">
+  <div style="display:flex;align-items:center;gap:14px;margin-bottom:26px">
+    <span style="background:var(--accent,#B6ACE4);border:2px solid #000;border-radius:5px;box-shadow:4px 4px 0 0 #000;font-weight:900;font-size:15px;padding:6px 10px">01</span>
+    <h2 style="margin:0;font-weight:900;text-transform:uppercase;font-size:clamp(28px,4.5vw,40px);letter-spacing:-0.01em">Skills</h2>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:20px">
+    <sc-for list="{{ skills }}" as="skill" hint-placeholder-count="6">
+      <div style="background:#ffffff;border:2px solid #000;border-radius:5px;box-shadow:4px 4px 0 0 #000;padding:18px;transition:transform 200ms ease,box-shadow 200ms ease" style-hover="transform:translate(-2px,-2px);box-shadow:6px 6px 0 0 #000">
+        <h3 style="margin:0 0 8px;font-weight:900;text-transform:uppercase;font-size:17px;letter-spacing:0.3px">{{ skill.title }}</h3>
+        <p style="margin:0;font-size:14px;line-height:1.55;font-weight:500">{{ skill.desc }}</p>
+      </div>
+    </sc-for>
+  </div>
+</section>
+
+<!-- ============ PROJECTS ============ -->
+<section id="projects" data-screen-label="Projects" style="max-width:1100px;margin:0 auto;padding:48px 16px">
+  <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:26px">
+    <span style="background:var(--accent,#B6ACE4);border:2px solid #000;border-radius:5px;box-shadow:4px 4px 0 0 #000;font-weight:900;font-size:15px;padding:6px 10px">02</span>
+    <h2 style="margin:0;font-weight:900;text-transform:uppercase;font-size:clamp(28px,4.5vw,40px);letter-spacing:-0.01em">Projects</h2>
+    <span style="font-family:ui-monospace,Menlo,monospace;font-size:12px;background:#FBA1D3;border:2px solid #000;border-radius:5px;padding:4px 9px;font-weight:700">click a card to flip it ↓</span>
+  </div>
+
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:38px 28px">
+    <sc-for list="{{ flips }}" as="p" hint-placeholder-count="4">
+      <div onClick="{{ p.onFlip }}" role="button" tabIndex="{{ zero }}" onKeyDown="{{ p.onKey }}" aria-label="Flip project card" style="position:relative;height:272px;perspective:1200px;cursor:pointer;transform:rotate({{ p.rot }}deg);transition:transform 200ms ease" style-hover="transform:rotate(0deg)" style-focus="outline:3px dashed #000;outline-offset:6px">
+        <span style="position:absolute;top:-12px;left:50%;width:90px;height:24px;margin-left:-45px;background:{{ p.tape }};opacity:0.85;border-left:2px dashed rgba(0,0,0,0.25);border-right:2px dashed rgba(0,0,0,0.25);transform:rotate(-2deg);z-index:5"></span>
+        <div style="position:absolute;inset:0;transform-style:preserve-3d;transform:rotateY({{ p.deg }}deg);transition:transform 450ms ease">
+          <div style="position:absolute;inset:0;backface-visibility:hidden;background:#ffffff;border:2px solid #000;border-radius:5px;box-shadow:4px 4px 0 0 #000;padding:14px;display:flex;flex-direction:column;gap:10px">
+            <div style="flex:1;border:2px solid #000;border-radius:5px;background:repeating-linear-gradient(45deg,#f0eefc 0 12px,#ffffff 12px 24px);display:flex;align-items:center;justify-content:center">
+              <span style="font-family:ui-monospace,Menlo,monospace;font-size:11px;background:#ffffff;border:2px solid #000;border-radius:5px;padding:3px 8px">{{ p.thumb }}</span>
+            </div>
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:10px">
+              <h3 style="margin:0;font-weight:900;text-transform:uppercase;font-size:18px">{{ p.title }}</h3>
+              <span style="background:{{ p.barColor }};border:2px solid #000;border-radius:5px;padding:3px 9px;font-weight:800;font-size:10.5px;text-transform:uppercase;flex:none">Flip ↻</span>
+            </div>
+          </div>
+          <div style="position:absolute;inset:0;backface-visibility:hidden;transform:rotateY(180deg);background:{{ p.barColor }};border:2px solid #000;border-radius:5px;box-shadow:4px 4px 0 0 #000;padding:16px;display:flex;flex-direction:column;gap:10px">
+            <span style="font-family:ui-monospace,Menlo,monospace;font-size:10.5px;font-weight:700">{{ p.name }}</span>
+            <h3 style="margin:0;font-weight:900;text-transform:uppercase;font-size:19px">{{ p.title }}</h3>
+            <p style="margin:0;font-size:13px;line-height:1.55;font-weight:600;flex:1">{{ p.desc }}</p>
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:10px">
+              <div style="display:flex;gap:6px;flex-wrap:wrap">
+                <sc-for list="{{ p.tags }}" as="tag" hint-placeholder-count="3">
+                  <span style="background:#ffffff;border:2px solid #000;border-radius:5px;padding:2px 8px;font-weight:800;font-size:11px;text-transform:uppercase;letter-spacing:0.4px">{{ tag.label }}</span>
+                </sc-for>
+              </div>
+              <a href="#" onClick="{{ stopNav }}" style="text-decoration:none;font-weight:900;text-transform:uppercase;font-size:12px;letter-spacing:0.5px;padding:7px 12px;background:#000;color:#fff;border:2px solid #000;border-radius:5px;flex:none" style-hover="color:#fff;background:#333" style-focus="outline:none;box-shadow:0 0 0 2px #fff,0 0 0 4px #000">Visit →</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </sc-for>
+  </div>
+  <p style="margin:24px 4px 0;font-family:ui-monospace,Menlo,monospace;font-size:11px;font-weight:600;color:rgba(0,0,0,0.55)">// click (or press Enter) to flip a card — the Visit link stays a link</p>
+</section>
+
+<!-- ============ CONTACT ============ -->
+<section id="contact" data-screen-label="Contact" style="max-width:1100px;margin:0 auto;padding:48px 16px 32px">
+  <div style="display:flex;align-items:center;gap:14px;margin-bottom:26px">
+    <span style="background:var(--accent,#B6ACE4);border:2px solid #000;border-radius:5px;box-shadow:4px 4px 0 0 #000;font-weight:900;font-size:15px;padding:6px 10px">03</span>
+    <h2 style="margin:0;font-weight:900;text-transform:uppercase;font-size:clamp(28px,4.5vw,40px);letter-spacing:-0.01em">Contact</h2>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:24px;align-items:start">
+    <form onSubmit="{{ onSubmit }}" style="background:#ffffff;border:4px solid #000;border-radius:5px;box-shadow:4px 4px 0 0 #000;padding:22px;display:flex;flex-direction:column;gap:16px">
+      <div style="display:flex;flex-direction:column;gap:6px">
+        <label for="cf-name" style="font-weight:900;text-transform:uppercase;font-size:12px;letter-spacing:0.6px">Name</label>
+        <input id="cf-name" name="name" type="text" required="{{ true }}" placeholder="Ada Placeholder" style="font-family:inherit;font-size:16px;font-weight:600;padding:12px;border:2px solid #000;border-radius:5px;background:#ffffff;width:100%;box-sizing:border-box" style-focus="outline:none;box-shadow:0 0 0 2px #fff,0 0 0 4px #000" />
+      </div>
+      <div style="display:flex;flex-direction:column;gap:6px">
+        <label for="cf-email" style="font-weight:900;text-transform:uppercase;font-size:12px;letter-spacing:0.6px">Email</label>
+        <input id="cf-email" name="email" type="email" required="{{ true }}" placeholder="you@example.com" style="font-family:inherit;font-size:16px;font-weight:600;padding:12px;border:2px solid #000;border-radius:5px;background:#ffffff;width:100%;box-sizing:border-box" style-focus="outline:none;box-shadow:0 0 0 2px #fff,0 0 0 4px #000" />
+      </div>
+      <div style="display:flex;flex-direction:column;gap:6px">
+        <label for="cf-msg" style="font-weight:900;text-transform:uppercase;font-size:12px;letter-spacing:0.6px">Message</label>
+        <textarea id="cf-msg" name="message" required="{{ true }}" rows="5" placeholder="Tell me about your project…" style="font-family:inherit;font-size:16px;font-weight:600;padding:12px;border:2px solid #000;border-radius:5px;background:#ffffff;width:100%;box-sizing:border-box;resize:vertical"  style-focus="outline:none;box-shadow:0 0 0 2px #fff,0 0 0 4px #000"></textarea>
+      </div>
+      <button type="submit" style="font-family:inherit;font-weight:900;text-transform:uppercase;font-size:15px;letter-spacing:0.6px;padding:14px 22px;background:var(--accent,#B6ACE4);color:#000;border:2px solid #000;border-radius:5px;box-shadow:4px 4px 0 0 #000;cursor:pointer;transition:transform 200ms ease,box-shadow 200ms ease" style-hover="transform:translate(-2px,-2px);box-shadow:6px 6px 0 0 #000" style-active="transform:translate(0,0);box-shadow:0 0 0 0 #000" style-focus="outline:none;box-shadow:0 0 0 2px #fff,0 0 0 4px #000">Send message →</button>
+    </form>
+    <div style="background:#ffffff;border:2px solid #000;border-radius:5px;box-shadow:4px 4px 0 0 #000;padding:22px;display:flex;flex-direction:column;gap:14px">
+      <h3 style="margin:0;font-weight:900;text-transform:uppercase;font-size:18px">Elsewhere</h3>
+      <p style="margin:0;font-size:14px;line-height:1.55;font-weight:500">No backend here — the form just says hi. For real conversations, use one of these:</p>
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <sc-for list="{{ socials }}" as="s" hint-placeholder-count="4">
+          <a href="{{ s.href }}" style="display:flex;align-items:center;justify-content:space-between;gap:10px;text-decoration:none;font-weight:800;text-transform:uppercase;font-size:13px;letter-spacing:0.5px;padding:11px 14px;background:{{ s.bg }};color:#000;border:2px solid #000;border-radius:5px;box-shadow:4px 4px 0 0 #000;transition:transform 200ms ease,box-shadow 200ms ease" style-hover="transform:translate(-2px,-2px);box-shadow:6px 6px 0 0 #000" style-active="transform:translate(0,0);box-shadow:0 0 0 0 #000" style-focus="outline:none;box-shadow:0 0 0 2px #fff,0 0 0 4px #000"><span>{{ s.label }}</span><span>→</span></a>
+        </sc-for>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer style="max-width:1100px;margin:0 auto;padding:8px 16px 40px">
+  <div style="border-top:2px solid #000;padding-top:16px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-weight:700;font-size:12.5px;text-transform:uppercase;letter-spacing:0.5px">
+    <span>© 2026 Alex Morgan</span>
+    <span>Built with thick borders &amp; zero blur</span>
+  </div>
+</footer>
+
+<!-- ============ SUCCESS TOAST ============ -->
+<sc-if value="{{ submitted }}" hint-placeholder-val="{{ false }}">
+  <div role="status" style="position:fixed;bottom:20px;right:20px;left:20px;max-width:380px;margin-left:auto;z-index:2000;background:#A7F3D0;border:2px solid #000;border-radius:5px;box-shadow:4px 4px 0 0 #000;padding:14px 16px;display:flex;align-items:flex-start;justify-content:space-between;gap:12px">
+    <div>
+      <p style="margin:0 0 2px;font-weight:900;text-transform:uppercase;font-size:14px">Message sent!</p>
+      <p style="margin:0;font-size:13px;font-weight:600">Well, pretend-sent. I'll pretend-reply soon.</p>
+    </div>
+    <button onClick="{{ dismissToast }}" aria-label="Dismiss" style="font-family:inherit;font-weight:900;font-size:14px;line-height:1;width:28px;height:28px;background:#ffffff;border:2px solid #000;border-radius:5px;cursor:pointer;flex:none" style-hover="transform:translate(-1px,-1px);box-shadow:2px 2px 0 0 #000" style-focus="outline:none;box-shadow:0 0 0 2px #fff,0 0 0 4px #000">×</button>
+  </div>
+</sc-if>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{
+  &quot;accent&quot;: { &quot;editor&quot;: &quot;color&quot;, &quot;default&quot;: &quot;#B6ACE4&quot;, &quot;tsType&quot;: &quot;string&quot;, &quot;options&quot;: [&quot;#B6ACE4&quot;, &quot;#A7F3D0&quot;, &quot;#FEF08A&quot;, &quot;#FBA1D3&quot;], &quot;section&quot;: &quot;Theme&quot; }
+}">
+class Component extends DCLogic {
+  state = { active: 'hero', vw: 1200, menuOpen: false, submitted: false, flipped: {} };
+
+  sections = [
+    { id: 'hero', label: 'Hero' },
+    { id: 'skills', label: 'Skills' },
+    { id: 'projects', label: 'Projects' },
+    { id: 'contact', label: 'Contact' },
+  ];
+
+  skills = [
+    { title: 'TypeScript & React', desc: 'Placeholder: strongly-typed component architecture, hooks, and state that stays predictable.' },
+    { title: 'Design Systems', desc: 'Placeholder: tokens, primitives, and docs that keep whole teams shipping consistent UI.' },
+    { title: 'Motion & Interaction', desc: 'Placeholder: micro-interactions, drag physics, and transitions that respect reduced motion.' },
+    { title: 'Accessibility', desc: 'Placeholder: semantic HTML, keyboard flows, focus management, and honest contrast.' },
+    { title: 'Node & APIs', desc: 'Placeholder: REST and headless CMS backends — Payload, of course — glued together cleanly.' },
+    { title: 'CSS Architecture', desc: 'Placeholder: Tailwind theming, layout systems, and shadows that never, ever blur.' },
+  ];
+
+  projects = [
+    { id: 'p1', name: 'pixelpress.app', title: 'PixelPress', barColor: '#B6ACE4', tape: '#FEF08A', rot: -1.6,
+      thumb: 'screenshot: editor', desc: 'Placeholder: a tiny in-browser zine editor with draggable blocks and instant PDF export.',
+      tags: [ { label: 'React', bg: '#A7F3D0' }, { label: 'Canvas', bg: '#FEF08A' }, { label: 'PDF', bg: '#FBA1D3' } ] },
+    { id: 'p2', name: 'stack-o-matic', title: 'Stack-o-Matic', barColor: '#A7F3D0', tape: '#FBA1D3', rot: 1.4,
+      thumb: 'screenshot: dashboard', desc: 'Placeholder: a dashboard that turns messy analytics into three numbers you actually read.',
+      tags: [ { label: 'Next.js', bg: '#FEF08A' }, { label: 'Charts', bg: '#B6ACE4' }, { label: 'API', bg: '#A7F3D0' } ] },
+    { id: 'p3', name: 'copy.cat', title: 'CopyCat', barColor: '#FEF08A', tape: '#A7F3D0', rot: -1,
+      thumb: 'screenshot: prompt UI', desc: 'Placeholder: a microcopy playground that A/B tests button labels with real users.',
+      tags: [ { label: 'TypeScript', bg: '#FBA1D3' }, { label: 'Node', bg: '#A7F3D0' }, { label: 'Postgres', bg: '#FEF08A' } ] },
+    { id: 'p4', name: 'border-patrol', title: 'Border Patrol', barColor: '#FBA1D3', tape: '#B6ACE4', rot: 1.8,
+      thumb: 'screenshot: linter', desc: 'Placeholder: a stylelint plugin that rejects any box-shadow with blur. Non-negotiable.',
+      tags: [ { label: 'Stylelint', bg: '#B6ACE4' }, { label: 'OSS', bg: '#FEF08A' }, { label: 'CLI', bg: '#A7F3D0' } ] },
+  ];
+
+  componentDidMount() {
+    this._onResize = () => this.setState({ vw: window.innerWidth });
+    this._onScroll = () => {
+      if (this._raf) return;
+      this._raf = requestAnimationFrame(() => { this._raf = null; this.updateSpy(); });
+    };
+    window.addEventListener('resize', this._onResize);
+    window.addEventListener('scroll', this._onScroll, { passive: true });
+    this._onResize();
+    this.updateSpy();
+    this.applyAccent();
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this._onResize);
+    window.removeEventListener('scroll', this._onScroll);
+    clearTimeout(this._toastTimer);
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.accent !== this.props.accent) this.applyAccent();
+  }
+
+  applyAccent() {
+    document.documentElement.style.setProperty('--accent', this.props.accent ?? '#B6ACE4');
+  }
+
+  // ---- scroll-spy + smooth scroll ----
+  updateSpy() {
+    let cur = 'hero';
+    for (const s of this.sections) {
+      const el = document.getElementById(s.id);
+      if (el && el.getBoundingClientRect().top <= 170) cur = s.id;
+    }
+    if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 4) cur = 'contact';
+    if (cur !== this.state.active) this.setState({ active: cur });
+  }
+
+  scrollToSection(id) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const top = el.getBoundingClientRect().top + window.scrollY - 88;
+    window.scrollTo({ top: Math.max(0, top), behavior: reduced ? 'auto' : 'smooth' });
+    this.setState({ menuOpen: false });
+  }
+
+  // ---- flip cards ----
+  toggleFlip(id) {
+    this.setState((s) => ({ flipped: { ...s.flipped, [id]: !s.flipped[id] } }));
+  }
+
+  // ---- form ----
+  handleSubmit = (e) => {
+    e.preventDefault();
+    e.currentTarget.reset();
+    this.setState({ submitted: true });
+    clearTimeout(this._toastTimer);
+    this._toastTimer = setTimeout(() => this.setState({ submitted: false }), 6000);
+  };
+
+  renderVals() {
+    const accent = this.props.accent ?? '#B6ACE4';
+    const isMobile = this.state.vw < 880;
+
+    const navItems = this.sections.map((s) => ({
+      label: s.label,
+      bg: this.state.active === s.id ? accent : '#ffffff',
+      onClick: () => this.scrollToSection(s.id),
+    }));
+
+    const flips = this.projects.map((p) => ({
+      ...p,
+      deg: this.state.flipped[p.id] ? 180 : 0,
+      onFlip: () => this.toggleFlip(p.id),
+      onKey: (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); this.toggleFlip(p.id); } },
+    }));
+
+    return {
+      isMobile,
+      isDesktop: !isMobile,
+      menuOpen: isMobile && this.state.menuOpen,
+      menuOpenStr: this.state.menuOpen ? 'true' : 'false',
+      submitted: this.state.submitted,
+      navItems,
+      skills: this.skills,
+      flips,
+      zero: 0,
+      socials: [
+        { label: 'Email me', href: 'mailto:hello@example.com', bg: '#B6ACE4' },
+        { label: 'GitHub', href: '#', bg: '#A7F3D0' },
+        { label: 'LinkedIn', href: '#', bg: '#FEF08A' },
+        { label: 'Bluesky', href: '#', bg: '#FBA1D3' },
+      ],
+      onSubmit: this.handleSubmit,
+      dismissToast: () => { clearTimeout(this._toastTimer); this.setState({ submitted: false }); },
+      toggleMenu: () => this.setState((s) => ({ menuOpen: !s.menuOpen })),
+      onBrandClick: (e) => { e.preventDefault(); this.scrollToSection('hero'); },
+      goProjects: () => this.scrollToSection('projects'),
+      goContact: () => this.scrollToSection('contact'),
+      preventNav: (e) => e.preventDefault(),
+      stopNav: (e) => { e.preventDefault(); e.stopPropagation(); },
+    };
+  }
+}
+</script>
+</body>
+</html>

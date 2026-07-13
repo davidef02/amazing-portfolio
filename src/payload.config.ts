@@ -10,6 +10,10 @@ import { plugins } from "./plugins";
 import { defaultLexical } from "@/fields/defaultLexical";
 import { getServerSideURL } from "./utilities/getURL";
 import { Projects } from "./collections/Projects";
+import { SiteConfig } from "./globals/SiteConfig";
+import { Hero } from "./globals/Hero";
+import { Header } from "./globals/Header";
+import { Footer } from "./globals/Footer";
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
@@ -60,7 +64,7 @@ export default buildConfig({
   }),
   collections: [Media, Users, Skills, Projects],
   cors: [getServerSideURL()].filter(Boolean),
-  globals: [],
+  globals: [SiteConfig, Header, Footer, Hero],
   plugins,
   secret: process.env.PAYLOAD_SECRET,
   sharp,

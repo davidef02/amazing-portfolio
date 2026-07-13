@@ -1,20 +1,35 @@
-import type { Metadata } from 'next'
-import { cn } from '@/utilities/ui'
-import { GeistMono } from 'geist/font/mono'
-import { GeistSans } from 'geist/font/sans'
-import React from 'react'
+import type { Metadata } from "next";
+import { cn } from "@/utilities/ui";
+import { GeistMono } from "geist/font/mono";
+import { GeistSans } from "geist/font/sans";
+import React from "react";
 
-import { AdminBar } from '@/components/AdminBar'
-import { Providers } from '@/providers'
-import { InitTheme } from '@/providers/Theme/InitTheme'
-import { mergeOpenGraph } from '@/utilities/mergeOpenGraph'
-import { draftMode } from 'next/headers'
+import { AdminBar } from "@/components/AdminBar";
+import { Providers } from "@/providers";
+import { InitTheme } from "@/providers/Theme/InitTheme";
+import { mergeOpenGraph } from "@/utilities/mergeOpenGraph";
+import { draftMode } from "next/headers";
 
-import './globals.css'
-import { getServerSideURL } from '@/utilities/getURL'
+import "./globals.css";
+import { getServerSideURL } from "@/utilities/getURL";
+import { getPayload } from "payload";
+import config from "@payload-config";
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
-  const { isEnabled } = await draftMode()
+  const { isEnabled } = await draftMode();
+  const payload = await getPayload({ config });
+  const siteConfig = await payload.findGlobal({ slug: "siteConfig" });
+
+  const hexes = siteConfig.colors?.selection ?? {};
+  const mainColor = siteConfig.colors?.mainColor ?? "yellow";
+
+  const colors = {
+    "--yellow": hexes.yellow,
+    "--green": hexes.green,
+    "--red": hexes.red,
+    "--blue": hexes.blue,
+    "--main": `var(--${mainColor})`,
+  } as React.CSSProperties;
 
   return (
     <html className={cn(GeistSans.variable, GeistMono.variable)} lang="en" suppressHydrationWarning>
@@ -23,7 +38,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <link href="/favicon.ico" rel="icon" sizes="32x32" />
         <link href="/favicon.svg" rel="icon" type="image/svg+xml" />
       </head>
-      <body>
+      <body style={colors}>
         <Providers>
           <AdminBar
             adminBarProps={{
@@ -34,14 +49,14 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         </Providers>
       </body>
     </html>
-  )
+  );
 }
 
 export const metadata: Metadata = {
   metadataBase: new URL(getServerSideURL()),
   openGraph: mergeOpenGraph(),
   twitter: {
-    card: 'summary_large_image',
-    creator: '@payloadcms',
+    card: "summary_large_image",
+    creator: "@payloadcms",
   },
-}
+};

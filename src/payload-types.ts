@@ -97,8 +97,18 @@ export interface Config {
     defaultIDType: number;
   };
   fallbackLocale: null;
-  globals: {};
-  globalsSelect: {};
+  globals: {
+    siteConfig: SiteConfig;
+    header: Header;
+    footer: Footer;
+    hero: Hero;
+  };
+  globalsSelect: {
+    siteConfig: SiteConfigSelect<false> | SiteConfigSelect<true>;
+    header: HeaderSelect<false> | HeaderSelect<true>;
+    footer: FooterSelect<false> | FooterSelect<true>;
+    hero: HeroSelect<false> | HeroSelect<true>;
+  };
   locale: null;
   widgets: {
     collections: CollectionsWidget;
@@ -618,6 +628,196 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
   batch?: T;
   updatedAt?: T;
   createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "siteConfig".
+ */
+export interface SiteConfig {
+  id: number;
+  colors: {
+    mainColor: 'yellow' | 'green' | 'blue' | 'red';
+    selection: {
+      yellow: string;
+      green: string;
+      blue: string;
+      red: string;
+    };
+  };
+  fullName: string;
+  siteTitle: string;
+  seo: {
+    metaTitle: string;
+    metaDescription: string;
+    metaLink: string;
+  };
+  favicon: number | Media;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "header".
+ */
+export interface Header {
+  id: number;
+  badgeColor: 'yellow' | 'green' | 'blue' | 'red';
+  navItems?:
+    | {
+        title: string;
+        link: string;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "footer".
+ */
+export interface Footer {
+  id: number;
+  footerDescription: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "hero".
+ */
+export interface Hero {
+  id: number;
+  heroDescription: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  badges?:
+    | {
+        title: string;
+        color: 'yellow' | 'green' | 'blue' | 'red';
+        id?: string | null;
+      }[]
+    | null;
+  link?:
+    | {
+        title: string;
+        link: string;
+        color?: ('white' | 'black') | null;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "siteConfig_select".
+ */
+export interface SiteConfigSelect<T extends boolean = true> {
+  colors?:
+    | T
+    | {
+        mainColor?: T;
+        selection?:
+          | T
+          | {
+              yellow?: T;
+              green?: T;
+              blue?: T;
+              red?: T;
+            };
+      };
+  fullName?: T;
+  siteTitle?: T;
+  seo?:
+    | T
+    | {
+        metaTitle?: T;
+        metaDescription?: T;
+        metaLink?: T;
+      };
+  favicon?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "header_select".
+ */
+export interface HeaderSelect<T extends boolean = true> {
+  badgeColor?: T;
+  navItems?:
+    | T
+    | {
+        title?: T;
+        link?: T;
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "footer_select".
+ */
+export interface FooterSelect<T extends boolean = true> {
+  footerDescription?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "hero_select".
+ */
+export interface HeroSelect<T extends boolean = true> {
+  heroDescription?: T;
+  badges?:
+    | T
+    | {
+        title?: T;
+        color?: T;
+        id?: T;
+      };
+  link?:
+    | T
+    | {
+        title?: T;
+        link?: T;
+        color?: T;
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
