@@ -69,7 +69,7 @@ export interface Config {
   collections: {
     media: Media;
     users: User;
-    Skills: Skill;
+    skills: Skill;
     'payload-kv': PayloadKv;
     'payload-folders': FolderInterface;
     'payload-locked-documents': PayloadLockedDocument;
@@ -84,7 +84,7 @@ export interface Config {
   collectionsSelect: {
     media: MediaSelect<false> | MediaSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
-    Skills: SkillsSelect<false> | SkillsSelect<true>;
+    skills: SkillsSelect<false> | SkillsSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-folders': PayloadFoldersSelect<false> | PayloadFoldersSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
@@ -272,7 +272,7 @@ export interface User {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "Skills".
+ * via the `definition` "skills".
  */
 export interface Skill {
   id: number;
@@ -329,7 +329,7 @@ export interface PayloadLockedDocument {
         value: number | User;
       } | null)
     | ({
-        relationTo: 'Skills';
+        relationTo: 'skills';
         value: number | Skill;
       } | null)
     | ({
@@ -497,7 +497,7 @@ export interface UsersSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "Skills_select".
+ * via the `definition` "skills_select".
  */
 export interface SkillsSelect<T extends boolean = true> {
   title?: T;

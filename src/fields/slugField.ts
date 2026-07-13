@@ -9,7 +9,6 @@ const formatSlug =
 
     // altrimenti utilizzo il field specificato dentro la definizione della collection
     const fallback = data?.[fieldToUse] || originalDoc?.[fieldToUse];
-
     if (typeof fallback === "string") return toKebabCase(fallback);
 
     // fallback: restituisco value e basta
@@ -19,6 +18,7 @@ const formatSlug =
 export const slugField = (fieldToUse: string = "title"): Field => ({
   name: "slug",
   type: "text",
+  unique: true,
   admin: {
     position: "sidebar",
   },

@@ -1,20 +1,13 @@
 import type { TextFieldSingleValidation } from 'payload'
 import {
-  BoldFeature,
-  ItalicFeature,
   LinkFeature,
-  ParagraphFeature,
   lexicalEditor,
-  UnderlineFeature,
   type LinkFields,
 } from '@payloadcms/richtext-lexical'
 
 export const defaultLexical = lexicalEditor({
-  features: [
-    ParagraphFeature(),
-    UnderlineFeature(),
-    BoldFeature(),
-    ItalicFeature(),
+  features: ({ defaultFeatures }) => [
+    ...defaultFeatures,
     LinkFeature({
       // Svuotato temporaneamente perché non abbiamo più Pages e Posts.
       // Potrai riattivarlo aggiungendo 'projects' quando avrai creato la collezione:
