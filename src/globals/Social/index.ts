@@ -5,6 +5,7 @@ export const Social: GlobalConfig = {
   slug: "social",
 
   fields: [
+    { name: "contactForm", type: "relationship", relationTo: "forms", required: true },
     {
       name: "socialDescription",
       label: "Text on top of social links",

@@ -14,6 +14,8 @@ import { Hero } from "./globals/Hero";
 import { Header } from "./globals/Header";
 import { Footer } from "./globals/Footer";
 import { formBuilderPlugin } from "@payloadcms/plugin-form-builder";
+import { CUSTOM_HTML_EMAIL } from "./const/email";
+import { Social } from "@/globals/Social";
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
@@ -64,7 +66,7 @@ export default buildConfig({
   }),
   collections: [Media, Users, Skills, Projects],
   cors: [getServerSideURL()].filter(Boolean),
-  globals: [SiteConfig, Header, Footer, Hero],
+  globals: [SiteConfig, Header, Footer, Hero, Social],
   plugins: [
     formBuilderPlugin({
       defaultToEmail: "davide.fantauzzi02@gmail.com",
@@ -73,7 +75,7 @@ export default buildConfig({
         return emails.map((email) => ({
           ...email,
           subject: `${formData.name || "Un utente"} ti ha contattato! dal portfolio`,
-          html: CUSTOM_HTML_EMAIL,
+          html: CUSTOM_HTML_EMAIL(email),
         }));
       },
     }),

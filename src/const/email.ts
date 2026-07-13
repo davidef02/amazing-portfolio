@@ -1,17 +1,20 @@
-export const CUSTOM_HTML_EMAIL = (email: formattedEmail) => `
-        <div style="font-family: Arial, sans-serif; padding: 20px; background-color: #f0eefc;">
-          <h2 style="color: #ff6b6b;">🚀 Nuovo Contatto dal Portfolio!</h2>
+import type { FormattedEmail } from "@payloadcms/plugin-form-builder/types";
 
-          <div style="background: white; padding: 20px; border-radius: 8px; border: 2px solid black;">
-             <p>Hai ricevuto un nuovo messaggio. Ecco i dettagli:</p>
+export const CUSTOM_HTML_EMAIL = (email: FormattedEmail): string => `
+  <div style="font-family: Arial, sans-serif; background-color: #f0eefc; padding: 24px;">
+    <div style="max-width: 600px; margin: 0 auto;">
+      <h2 style="color: #ff6b6b; margin: 0 0 16px;">🚀 Nuovo Contatto dal Portfolio!</h2>
 
-             <!-- Inseriamo la tabella generata di default da Payload -->
-             ${email.html}
+      <div style="background: #ffffff; padding: 24px; border-radius: 8px; border: 2px solid #000000;">
+        <p style="margin: 0 0 16px;">Hai ricevuto un nuovo messaggio. Ecco i dettagli:</p>
 
-             <hr style="margin-top: 30px;" />
-             <p style="font-size: 12px; color: gray;">
-               Email automatica generata da Payload CMS
-             </p>
-          </div>
-        </div>
-      `;
+        ${email.html}
+
+        <hr style="margin: 30px 0 16px; border: none; border-top: 1px solid #e0e0e0;" />
+        <p style="font-size: 12px; color: gray; margin: 0;">
+          Email automatica generata da Payload CMS
+        </p>
+      </div>
+    </div>
+  </div>
+`;
