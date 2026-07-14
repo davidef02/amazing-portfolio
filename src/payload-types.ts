@@ -72,6 +72,7 @@ export interface Config {
     skills: Skill;
     projects: Project;
     experiences: Experience;
+    tags: Tag;
     forms: Form;
     'form-submissions': FormSubmission;
     'payload-kv': PayloadKv;
@@ -91,6 +92,7 @@ export interface Config {
     skills: SkillsSelect<false> | SkillsSelect<true>;
     projects: ProjectsSelect<false> | ProjectsSelect<true>;
     experiences: ExperiencesSelect<false> | ExperiencesSelect<true>;
+    tags: TagsSelect<false> | TagsSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
@@ -339,12 +341,7 @@ export interface Project {
     [k: string]: unknown;
   };
   screenshot: number | Media;
-  skills?:
-    | {
-        skill?: string | null;
-        id?: string | null;
-      }[]
-    | null;
+  tags?: (number | null) | Tag;
   link: string;
   live: boolean;
   slug?: string | null;
@@ -354,13 +351,27 @@ export interface Project {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "tags".
+ */
+export interface Tag {
+  id: number;
+  title: string;
+  slug?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "experiences".
  */
 export interface Experience {
   id: number;
+  _order?: string | null;
   title: string;
   description: string;
   color: 'yellow' | 'green' | 'blue' | 'red';
+  startDate: string;
+  endDate?: string | null;
   slug?: string | null;
   updatedAt: string;
   createdAt: string;
@@ -601,6 +612,10 @@ export interface PayloadLockedDocument {
         value: number | Experience;
       } | null)
     | ({
+        relationTo: 'tags';
+        value: number | Tag;
+      } | null)
+    | ({
         relationTo: 'forms';
         value: number | Form;
       } | null)
@@ -790,12 +805,7 @@ export interface ProjectsSelect<T extends boolean = true> {
   title?: T;
   description?: T;
   screenshot?: T;
-  skills?:
-    | T
-    | {
-        skill?: T;
-        id?: T;
-      };
+  tags?: T;
   link?: T;
   live?: T;
   slug?: T;
@@ -808,9 +818,22 @@ export interface ProjectsSelect<T extends boolean = true> {
  * via the `definition` "experiences_select".
  */
 export interface ExperiencesSelect<T extends boolean = true> {
+  _order?: T;
   title?: T;
   description?: T;
   color?: T;
+  startDate?: T;
+  endDate?: T;
+  slug?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "tags_select".
+ */
+export interface TagsSelect<T extends boolean = true> {
+  title?: T;
   slug?: T;
   updatedAt?: T;
   createdAt?: T;

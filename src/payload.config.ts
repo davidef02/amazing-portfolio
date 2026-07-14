@@ -18,6 +18,7 @@ import { formBuilderPlugin } from "@payloadcms/plugin-form-builder";
 import { CUSTOM_HTML_EMAIL } from "./const/email";
 import { Social } from "@/globals/Social";
 import { resendAdapter } from "@payloadcms/email-resend";
+import { Tags } from "@/collections/Tags";
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
@@ -71,7 +72,7 @@ export default buildConfig({
       connectionString: process.env.DATABASE_URL || "",
     },
   }),
-  collections: [Media, Users, Skills, Projects, Experiences],
+  collections: [Media, Users, Skills, Projects, Experiences, Tags],
   cors: [getServerSideURL()].filter(Boolean),
   globals: [SiteConfig, Header, Footer, Hero, Social],
   plugins: [

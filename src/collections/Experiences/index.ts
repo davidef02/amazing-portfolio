@@ -10,6 +10,8 @@ export const Experiences: CollectionConfig = {
     plural: "Experiences",
   },
 
+  orderable: true,
+
   fields: [
     { name: "title", type: "text", required: true },
     { name: "description", type: "text", required: true },
@@ -19,6 +21,8 @@ export const Experiences: CollectionConfig = {
       options: THEME_COLORS.map((color) => color),
       required: true,
     },
+    { name: "startDate", type: "date", required: true },
+    { name: "endDate", type: "date" },
     slugField("title"),
   ],
 };
