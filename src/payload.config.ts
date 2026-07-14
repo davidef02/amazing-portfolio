@@ -9,6 +9,7 @@ import { Users } from "./collections/Users";
 import { defaultLexical } from "@/fields/defaultLexical";
 import { getServerSideURL } from "./utilities/getURL";
 import { Projects } from "./collections/Projects";
+import { Experiences } from "./collections/Experiences";
 import { SiteConfig } from "./globals/SiteConfig";
 import { Hero } from "./globals/Hero";
 import { Header } from "./globals/Header";
@@ -70,7 +71,7 @@ export default buildConfig({
       connectionString: process.env.DATABASE_URL || "",
     },
   }),
-  collections: [Media, Users, Skills, Projects],
+  collections: [Media, Users, Skills, Projects, Experiences],
   cors: [getServerSideURL()].filter(Boolean),
   globals: [SiteConfig, Header, Footer, Hero, Social],
   plugins: [

@@ -1,8 +1,8 @@
-import type { Field } from "payload";
+import type { Field, FieldHook } from "payload";
 import { toKebabCase } from "@/utilities/toKebabCase";
 
 const formatSlug =
-  (fieldToUse: string): any =>
+  (fieldToUse: string): FieldHook =>
   ({ value, data, originalDoc }) => {
     // se l'admin ha inserito un campo valido, lo formatto e lo slug diventa quello
     if (typeof value === "string") return toKebabCase(value);

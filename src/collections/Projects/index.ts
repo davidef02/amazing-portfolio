@@ -18,4 +18,6 @@ export const Projects: CollectionConfig = {
     { name: "live", type: "checkbox", required: true },
     slugField("title"),
   ],
+
+  versions: { drafts: true, maxPerDoc: 5 },
 };
