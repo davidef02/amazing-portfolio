@@ -16,11 +16,17 @@ import { Footer } from "./globals/Footer";
 import { formBuilderPlugin } from "@payloadcms/plugin-form-builder";
 import { CUSTOM_HTML_EMAIL } from "./const/email";
 import { Social } from "@/globals/Social";
+import { resendAdapter } from "@payloadcms/email-resend";
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
 
 export default buildConfig({
+  email: resendAdapter({
+    defaultFromAddress: "dev@payloadcms.com",
+    defaultFromName: "Payload CMS",
+    apiKey: process.env.RESEND_API_KEY || "",
+  }),
   admin: {
     components: {
       // The `BeforeLogin` component renders a message that you see while logging into your admin panel.
@@ -74,7 +80,7 @@ export default buildConfig({
         const formData = beforeChangeParams.data;
         return emails.map((email) => ({
           ...email,
-          subject: `${formData.name || "Un utente"} ti ha contattato! dal portfolio`,
+          subject: `${formData.name || "Un utente"} ti ha contattato dal portfolio`,
           html: CUSTOM_HTML_EMAIL(email),
         }));
       },
