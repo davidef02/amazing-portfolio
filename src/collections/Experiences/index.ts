@@ -1,9 +1,18 @@
 import type { CollectionConfig } from "payload";
 import { slugField } from "@/fields/slugField";
 import { THEME_COLORS, THEME_COLOR_LABELS } from "@/const/colors";
+import { anyone } from "@/access/anyone";
+import { authenticated } from "@/access/authenticated";
 
 export const Experiences: CollectionConfig = {
   slug: "experiences",
+
+  access: {
+    read: anyone,
+    create: authenticated,
+    update: authenticated,
+    delete: authenticated,
+  },
 
   labels: {
     singular: "Experience",

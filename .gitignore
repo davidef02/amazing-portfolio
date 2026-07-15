@@ -17,7 +17,8 @@ dist/
 .env.production.local
 
 # File Media di Payload (di default non vanno pushati se usi cloud storage, altrimenti sì)
-public/media/
+# da decommentare dopo il deploy (quando si usa cloud storage)
+# public/media/
 
 # File di Log e Debug
 npm-debug.log*

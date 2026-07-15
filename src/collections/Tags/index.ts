@@ -1,8 +1,17 @@
 import type { CollectionConfig } from "payload";
 import { slugField } from "@/fields/slugField";
+import { anyone } from "@/access/anyone";
+import { authenticated } from "@/access/authenticated";
 
 export const Tags: CollectionConfig = {
   slug: "tags",
+
+  access: {
+    read: anyone,
+    create: authenticated,
+    update: authenticated,
+    delete: authenticated,
+  },
 
   labels: {
     singular: "Tag",

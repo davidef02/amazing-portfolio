@@ -1,8 +1,15 @@
 import { GlobalConfig } from "payload";
 import { THEME_COLORS, THEME_COLOR_LABELS } from "@/const/colors";
+import { anyone } from "@/access/anyone";
+import { authenticated } from "@/access/authenticated";
 
 export const Social: GlobalConfig = {
   slug: "social",
+
+  access: {
+    read: anyone,
+    update: authenticated,
+  },
 
   fields: [
     { name: "contactForm", type: "relationship", relationTo: "forms", required: true },

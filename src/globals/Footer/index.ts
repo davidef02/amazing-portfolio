@@ -1,8 +1,15 @@
 import { GlobalConfig } from "payload";
+import { anyone } from "@/access/anyone";
+import { authenticated } from "@/access/authenticated";
 
 export const Footer: GlobalConfig = {
   label: "Footer",
   slug: "footer",
+
+  access: {
+    read: anyone,
+    update: authenticated,
+  },
 
   fields: [
     {
