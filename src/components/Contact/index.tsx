@@ -1,26 +1,9 @@
 import config from "@payload-config";
 import { getPayload } from "payload";
-import type { ReactNode } from "react";
 import { cn } from "@/lib/utils";
 import { BG } from "@/const/colors";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Label } from "@/components/ui/label";
 import { SectionHeading } from "@/components/SectionHeading";
-
-function Field({ id, label, children }: { id: string; label: string; children: ReactNode }) {
-  return (
-    <div className="flex flex-col gap-1.5">
-      <Label htmlFor={id} className="text-xs font-black uppercase tracking-wide">
-        {label}
-      </Label>
-      {children}
-    </div>
-  );
-}
-
-const inputClass = "h-auto p-3 text-base font-semibold";
+import ContactClient from "./contact-client";
 
 export default async function Contact() {
   const payload = await getPayload({ config });
@@ -31,35 +14,8 @@ export default async function Contact() {
     <div>
       <SectionHeading num="04" title="Contact" />
       <div className="grid grid-cols-[repeat(auto-fit,minmax(290px,1fr))] items-start gap-6">
-        {/* form — SEAM logica: onSubmit -> POST form-submissions + toast */}
-        <form className="flex flex-col gap-4 rounded-base border-4 border-black bg-white p-[22px] shadow-brutal">
-          {form?.fields?.map((f) => {
-            if (!("name" in f)) return null;
-            const id = `cf-${f.name}`;
-            const label = f.label || f.name;
-            if (f.blockType === "textarea") {
-              return (
-                <Field key={f.id} id={id} label={label}>
-                  <Textarea id={id} name={f.name} rows={5} required={!!f.required} className={inputClass} />
-                </Field>
-              );
-            }
-            if (f.blockType === "text" || f.blockType === "email" || f.blockType === "number") {
-              return (
-                <Field key={f.id} id={id} label={label}>
-                  <Input id={id} name={f.name} type={f.blockType} required={!!f.required} className={inputClass} />
-                </Field>
-              );
-            }
-            return null;
-          })}
-          <Button
-            type="submit"
-            className="h-auto px-[22px] py-3.5 text-[15px] font-black uppercase tracking-wide"
-          >
-            Send message →
-          </Button>
-        </form>
+        {/* form: FE in contact-client, submit = seam (lo fai tu) */}
+        {form && <ContactClient form={form} />}
 
         {/* elsewhere */}
         <div className="flex flex-col gap-3.5 rounded-base border-2 border-black bg-white p-[22px] shadow-brutal">
