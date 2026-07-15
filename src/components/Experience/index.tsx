@@ -17,7 +17,7 @@ export default async function Experience() {
 
   return (
     <div>
-      <SectionHeading num="03" title="Experience" />
+      <SectionHeading num="03" title="Experiences" />
       <ol className="ml-3 flex flex-col gap-6 border-l-2 border-black">
         {experiences.map((e) => (
           <li key={e.id} className="relative pl-6">

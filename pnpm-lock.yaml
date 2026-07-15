@@ -8,18 +8,12 @@ importers:
 
   .:
     dependencies:
-      '@payloadcms/admin-bar':
-        specifier: 3.85.2
-        version: 3.85.2(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
       '@payloadcms/db-postgres':
         specifier: 3.85.2
         version: 3.85.2(payload@3.85.2(graphql@16.14.2)(typescript@5.7.3))
       '@payloadcms/email-resend':
         specifier: 3.85.2
         version: 3.85.2(payload@3.85.2(graphql@16.14.2)(typescript@5.7.3))
-      '@payloadcms/live-preview-react':
-        specifier: 3.85.2
-        version: 3.85.2(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
       '@payloadcms/next':
         specifier: 3.85.2
         version: 3.85.2(@types/react@19.2.14)(graphql@16.14.2)(monaco-editor@0.55.1)(next@16.2.6(@babel/core@7.29.7)(@playwright/test@1.58.2)(react-dom@19.2.6(react@19.2.6))(react@19.2.6)(sass@1.77.4))(payload@3.85.2(graphql@16.14.2)(typescript@5.7.3))(react-dom@19.2.6(react@19.2.6))(react@19.2.6)(typescript@5.7.3)
@@ -1594,12 +1588,6 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@payloadcms/admin-bar@3.85.2':
-    resolution: {integrity: sha512-3ZfO+NYNRNSp+kgFbV5ZxrRfbHt2m77tYfx7Mt3R95icCEGyFQ3BuI9aYQM8NUqnNnuX+r4A5W4DporQ4YGbTA==}
-    peerDependencies:
-      react: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.1 || ^19.1.2 || ^19.2.1
-      react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.1 || ^19.1.2 || ^19.2.1
-
   '@payloadcms/db-postgres@3.85.2':
     resolution: {integrity: sha512-nHsLh0yJQni3d0GsaxkSifxzTM3WyOU85Nhy0imW054/KR3RDd75b6qDaROIdVZuU57Y9xR9nLRjZBb6fd91uA==}
     peerDependencies:
@@ -1622,15 +1610,6 @@ packages:
     peerDependencies:
       graphql: ^16.8.1
       payload: 3.85.2
-
-  '@payloadcms/live-preview-react@3.85.2':
-    resolution: {integrity: sha512-HMulvQRXAQp2OaqmXgZa5Sg1htN+5FC36g0vFnoYooG5XtIuRriFNPOPbokygg67AOQPo+0G0r6jPM9JTjYkXA==}
-    peerDependencies:
-      react: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.1 || ^19.1.2 || ^19.2.1
-      react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.1 || ^19.1.2 || ^19.2.1
-
-  '@payloadcms/live-preview@3.85.2':
-    resolution: {integrity: sha512-nWOQhBv4ei3uEjJGGCo1m541fx4D8wONLv74/yjzsawDHRq6tOcOMUTQuQPIZt5xNlomYFPH9XlZfgIs3BSWdA==}
 
   '@payloadcms/next@3.85.2':
     resolution: {integrity: sha512-91sDj1QFyAwWq5V0UF1Bm4Y2E0MvdYrLynzrsKmejD2/uWuc56zaHJxOHjrdCfeo80Sqof/ZQ6tQOPXGY25hPA==}
@@ -5266,11 +5245,6 @@ snapshots:
   '@oxlint/binding-win32-x64-msvc@1.73.0':
     optional: true
 
-  '@payloadcms/admin-bar@3.85.2(react-dom@19.2.6(react@19.2.6))(react@19.2.6)':
-    dependencies:
-      react: 19.2.6
-      react-dom: 19.2.6(react@19.2.6)
-
   '@payloadcms/db-postgres@3.85.2(payload@3.85.2(graphql@16.14.2)(typescript@5.7.3))':
     dependencies:
       '@payloadcms/drizzle': 3.85.2(@types/pg@8.20.0)(payload@3.85.2(graphql@16.14.2)(typescript@5.7.3))(pg@8.20.0)
@@ -5368,14 +5342,6 @@ snapshots:
       tsx: 4.22.4
     transitivePeerDependencies:
       - typescript
-
-  '@payloadcms/live-preview-react@3.85.2(react-dom@19.2.6(react@19.2.6))(react@19.2.6)':
-    dependencies:
-      '@payloadcms/live-preview': 3.85.2
-      react: 19.2.6
-      react-dom: 19.2.6(react@19.2.6)
-
-  '@payloadcms/live-preview@3.85.2': {}
 
   '@payloadcms/next@3.85.2(@types/react@19.2.14)(graphql@16.14.2)(monaco-editor@0.55.1)(next@16.2.6(@babel/core@7.29.7)(@playwright/test@1.58.2)(react-dom@19.2.6(react@19.2.6))(react@19.2.6)(sass@1.77.4))(payload@3.85.2(graphql@16.14.2)(typescript@5.7.3))(react-dom@19.2.6(react@19.2.6))(react@19.2.6)(typescript@5.7.3)':
     dependencies:

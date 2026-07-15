@@ -22,10 +22,8 @@
     "test:int": "cross-env NODE_OPTIONS=--no-deprecation vitest run --config ./vitest.config.mts"
   },
   "dependencies": {
-    "@payloadcms/admin-bar": "3.85.2",
     "@payloadcms/db-postgres": "3.85.2",
     "@payloadcms/email-resend": "3.85.2",
-    "@payloadcms/live-preview-react": "3.85.2",
     "@payloadcms/next": "3.85.2",
     "@payloadcms/plugin-form-builder": "3.85.2",
     "@payloadcms/richtext-lexical": "3.85.2",

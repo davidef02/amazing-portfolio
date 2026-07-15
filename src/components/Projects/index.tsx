@@ -9,6 +9,7 @@ export default async function Projects() {
     collection: "projects",
     limit: 100,
     depth: 1,
+    where: { _status: { equals: "published" } },
   });
 
   return (

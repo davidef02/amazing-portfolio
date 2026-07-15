@@ -21,7 +21,7 @@ export default function Page() {
       <section id="projects" className={section}>
         <Projects />
       </section>
-      <section id="experience" className={section}>
+      <section id="experiences" className={section}>
         <Experience />
       </section>
       <section id="contact" className={section}>
