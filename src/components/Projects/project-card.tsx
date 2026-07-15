@@ -6,6 +6,7 @@ import { BG } from "@/const/colors";
 import { Media } from "@/components/Media";
 import RichText from "@/components/RichText";
 import type { Project, Tag } from "@/payload-types";
+import { externalLinkProps } from "@/utilities/link";
 
 // tilt a riposo per card (si raddrizza in hover)
 const TILT = ["-rotate-2", "rotate-1", "-rotate-1", "rotate-2"];
@@ -109,6 +110,7 @@ export default function ProjectCard({ project: p, index }: { project: Project; i
               <a
                 href={p.link}
                 onClick={(e) => e.stopPropagation()}
+                {...externalLinkProps(p.link)}
                 className="flex-none rounded-base border-2 border-black bg-black px-3 py-1.5 text-xs font-black uppercase tracking-wide text-white"
               >
                 Visit →

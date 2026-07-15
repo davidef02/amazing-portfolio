@@ -5,6 +5,7 @@ import { BG } from "@/const/colors";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import RichText from "@/components/RichText";
+import { externalLinkProps } from "@/utilities/link";
 
 export default async function Hero() {
   const payload = await getPayload({ config });
@@ -43,7 +44,12 @@ export default async function Hero() {
         data={hero.heroDescription}
         enableGutter={false}
         enableProse={false}
-        className="mt-6 max-w-[620px] text-base font-medium leading-relaxed"
+        className={cn(
+          "mt-6 max-w-[620px] text-base font-medium leading-relaxed",
+          // heading nel richText = tagline (uppercase 900), paragrafo = bio
+          "[&_:is(h1,h2,h3)]:font-black [&_:is(h1,h2,h3)]:uppercase [&_:is(h1,h2,h3)]:text-[clamp(17px,2.4vw,24px)] [&_:is(h1,h2,h3)]:leading-[1.05] [&_:is(h1,h2,h3)]:tracking-[0.3px]",
+          "[&>*+*]:mt-3"
+        )}
       />
 
       {/* CTAs */}
@@ -58,7 +64,9 @@ export default async function Hero() {
               l.color === "black" && "bg-black text-white"
             )}
           >
-            <a href={l.link}>{l.title}</a>
+            <a href={l.link} {...externalLinkProps(l.link)}>
+              {l.title}
+            </a>
           </Button>
         ))}
       </div>

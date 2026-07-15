@@ -25,11 +25,13 @@ const dirname = path.dirname(filename);
 
 export default buildConfig({
   email: resendAdapter({
-    defaultFromAddress: "dev@payloadcms.com",
-    defaultFromName: "Payload CMS",
+    // sandbox Resend: nessun dominio da verificare, consegna all'email del tuo account Resend
+    defaultFromAddress: "onboarding@resend.dev",
+    defaultFromName: "Portfolio",
     apiKey: process.env.RESEND_API_KEY || "",
   }),
   admin: {
+    toast: { limit: 1, position: "bottom-right" },
     components: {
       // The `BeforeLogin` component renders a message that you see while logging into your admin panel.
       // Feel free to delete this at any time. Simply remove the line below.

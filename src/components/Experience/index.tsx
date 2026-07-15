@@ -27,7 +27,7 @@ export default async function Experience() {
                 "absolute -left-[9px] top-2 h-4 w-4 rounded-full border-2 border-black"
               )}
             />
-            <div className="interactive-brutal rounded-base border-2 border-black bg-white p-4 shadow-brutal">
+            <div className="interactive-brutal rounded-base border-2 border-black bg-white p-4">
               <div className="flex flex-wrap items-center justify-between gap-2">
                 <h3 className="text-[17px] font-black uppercase">{e.title}</h3>
                 <span className="font-mono text-xs font-semibold text-black/60">

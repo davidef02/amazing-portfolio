@@ -5,7 +5,7 @@ export type ThemeColor = (typeof THEME_COLORS)[number];
 export const THEME_COLOR_LABELS: Record<ThemeColor, string> = {
   yellow: "Lemon",
   green: "Mint",
-  blue: "Purple",
+  blue: "Lavender",
   red: "Hot pink",
 };
 

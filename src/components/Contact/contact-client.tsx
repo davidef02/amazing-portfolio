@@ -1,11 +1,13 @@
 "use client";
 
-import { type FormEvent, type ReactNode } from "react";
+import { type ReactNode, useState } from "react";
+import { toast } from "sonner";
+import { getClientSideURL } from "@/utilities/getURL";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import type { Form } from "@/payload-types";
+import type { Form, Social } from "@/payload-types";
 
 function Field({ id, label, children }: { id: string; label: string; children: ReactNode }) {
   return (
@@ -20,18 +22,49 @@ function Field({ id, label, children }: { id: string; label: string; children: R
 
 const inputClass = "h-auto p-3 text-base font-semibold";
 
-export default function ContactClient({ form }: { form: Form }) {
-  // ===== SEAM: logica submit (la fai tu) =====
-  // POST /api/form-submissions con { form: form.id, submissionData: [{ field, value }] }
-  // + stati pending/error/success + toast. Ora fa solo preventDefault.
-  const onSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    // TODO
+export default function ContactClient({
+  form,
+  messages,
+}: {
+  form: Form;
+  messages?: Social["toast"];
+}) {
+  const [pending, setPending] = useState(false);
+
+  // best practice form-builder: POST /api/form-submissions con { form, submissionData }
+  const submit = async (formEl: HTMLFormElement) => {
+    const data = new FormData(formEl);
+    const submissionData = (form.fields ?? []).flatMap((f) =>
+      "name" in f ? [{ field: f.name, value: String(data.get(f.name) ?? "") }] : []
+    );
+
+    setPending(true);
+    try {
+      const res = await fetch(`${getClientSideURL()}/api/form-submissions`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ form: form.id, submissionData }),
+      });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      formEl.reset();
+      toast.success(messages?.successTitle ?? "Message sent!", {
+        description: messages?.successMessage ?? "I'll get back to you soon.",
+      });
+    } catch {
+      toast.error(messages?.errorTitle ?? "Something went wrong", {
+        description: messages?.errorMessage ?? "Try again in a bit.",
+      });
+    } finally {
+      setPending(false);
+    }
   };
 
   return (
     <form
-      onSubmit={onSubmit}
+      onSubmit={(e) => {
+        e.preventDefault();
+        void submit(e.currentTarget);
+      }}
       className="flex flex-col gap-4 rounded-base border-4 border-black bg-white p-[22px] shadow-brutal"
     >
       {form.fields?.map((f) => {
@@ -42,14 +75,30 @@ export default function ContactClient({ form }: { form: Form }) {
         if (f.blockType === "textarea") {
           return (
             <Field key={f.id} id={id} label={label}>
-              <Textarea id={id} name={f.name} rows={5} required={!!f.required} className={inputClass} />
+              <Textarea
+                id={id}
+                name={f.name}
+                rows={5}
+                required={!!f.required}
+                maxLength={2000}
+                className={inputClass}
+                suppressHydrationWarning
+              />
             </Field>
           );
         }
         if (f.blockType === "text" || f.blockType === "email" || f.blockType === "number") {
           return (
             <Field key={f.id} id={id} label={label}>
-              <Input id={id} name={f.name} type={f.blockType} required={!!f.required} className={inputClass} />
+              <Input
+                id={id}
+                name={f.name}
+                type={f.blockType}
+                required={!!f.required}
+                maxLength={200}
+                className={inputClass}
+                suppressHydrationWarning
+              />
             </Field>
           );
         }
@@ -58,9 +107,10 @@ export default function ContactClient({ form }: { form: Form }) {
 
       <Button
         type="submit"
-        className="h-auto px-[22px] py-3.5 text-[15px] font-black uppercase tracking-wide"
+        disabled={pending}
+        className="h-auto px-5.5 py-3.5 text-[15px] font-black uppercase tracking-wide"
       >
-        Send message →
+        {pending ? "Sending…" : "Send message →"}
       </Button>
     </form>
   );

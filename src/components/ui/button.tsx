@@ -23,13 +23,13 @@ const Slot = React.forwardRef<HTMLElement, SlotProps>(
 Slot.displayName = "Slot"
 
 const buttonVariants = cva(
-    "inline-flex items-center justify-center whitespace-nowrap rounded-base text-sm font-bold transition-brutal focus-brutal disabled:pointer-events-none disabled:opacity-50 border-2 border-black cursor-pointer",
+    "inline-flex items-center justify-center whitespace-nowrap rounded-base text-sm font-bold interactive-brutal focus-visible:focus-brutal disabled:pointer-events-none disabled:opacity-50 border-2 border-black cursor-pointer",
     {
         variants: {
             variant: {
-                default: "bg-main text-black shadow-brutal hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none",
+                default: "bg-main text-black",
                 noShadow: "bg-main text-black border-2 border-black",
-                neutral: "bg-white text-black shadow-brutal hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none",
+                neutral: "bg-white text-black",
             },
             size: {
                 default: "h-10 px-4 py-2",

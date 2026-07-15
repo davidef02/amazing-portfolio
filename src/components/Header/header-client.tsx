@@ -12,7 +12,7 @@ type Props = {
 };
 
 const navBtn =
-  "interactive-brutal rounded-base border-2 border-black px-3.5 py-2 text-[12.5px] font-extrabold uppercase tracking-wide shadow-brutal";
+  "interactive-brutal rounded-base border-2 border-black px-3.5 py-2 text-[12.5px] font-extrabold uppercase tracking-wide";
 
 export default function HeaderClient({ navItems, badgeColor }: Props) {
   const active = useScrollPastId(navItems.map((i) => i.link.replace(/^#/, "")));
@@ -43,7 +43,7 @@ export default function HeaderClient({ navItems, badgeColor }: Props) {
         onClick={() => setMenuOpen((o) => !o)}
         className={cn(
           BG[badgeColor],
-          "interactive-brutal flex h-11 w-11 flex-col items-center justify-center gap-1 rounded-base border-2 border-black shadow-brutal min-[880px]:hidden",
+          "interactive-brutal flex h-11 w-11 flex-col items-center justify-center gap-1 rounded-base border-2 border-black min-[880px]:hidden",
         )}
       >
         <span className="h-[2.5px] w-4.5 bg-black" />

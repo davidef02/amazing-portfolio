@@ -298,6 +298,7 @@ export interface User {
  */
 export interface Skill {
   id: number;
+  _order?: string | null;
   title: string;
   description?: {
     root: {
@@ -793,6 +794,7 @@ export interface UsersSelect<T extends boolean = true> {
  * via the `definition` "skills_select".
  */
 export interface SkillsSelect<T extends boolean = true> {
+  _order?: T;
   title?: T;
   description?: T;
   slug?: T;
@@ -1160,6 +1162,12 @@ export interface Hero {
 export interface Social {
   id: number;
   contactForm: number | Form;
+  toast: {
+    successTitle: string;
+    successMessage: string;
+    errorTitle: string;
+    errorMessage: string;
+  };
   socialDescription?: string | null;
   links?:
     | {
@@ -1263,6 +1271,14 @@ export interface HeroSelect<T extends boolean = true> {
  */
 export interface SocialSelect<T extends boolean = true> {
   contactForm?: T;
+  toast?:
+    | T
+    | {
+        successTitle?: T;
+        successMessage?: T;
+        errorTitle?: T;
+        errorMessage?: T;
+      };
   socialDescription?: T;
   links?:
     | T

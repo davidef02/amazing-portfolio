@@ -9,6 +9,8 @@ export const Skills: CollectionConfig = {
     plural: "Skills",
   },
 
+  orderable: true,
+
   fields: [
     { name: "title", type: "text", required: true },
     { name: "description", type: "richText" },

@@ -7,6 +7,17 @@ export const Social: GlobalConfig = {
   fields: [
     { name: "contactForm", type: "relationship", relationTo: "forms", required: true },
     {
+      name: "toast",
+      label: "Contact form toast",
+      type: "group",
+      fields: [
+        { name: "successTitle", type: "text", required: true },
+        { name: "successMessage", type: "text", required: true },
+        { name: "errorTitle", type: "text", required: true },
+        { name: "errorMessage", type: "text", required: true },
+      ],
+    },
+    {
       name: "socialDescription",
       label: "Text on top of social links",
       required: false,

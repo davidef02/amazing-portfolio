@@ -4,6 +4,8 @@ import { GeistMono } from "geist/font/mono";
 import { GeistSans } from "geist/font/sans";
 import React, { cache } from "react";
 import { AdminBar } from "@/components/AdminBar";
+import Toaster from "@/components/Toaster";
+import HashScroll from "@/components/HashScroll";
 import { draftMode } from "next/headers";
 import "./globals.css";
 import { getServerSideURL } from "@/utilities/getURL";
@@ -89,6 +91,8 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           }}
         />
         {children}
+        <Toaster />
+        <HashScroll />
       </body>
     </html>
   );

@@ -97,8 +97,10 @@
   transition: all 200ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
-/* interazione firma del design: hover solleva, active schiaccia (no blur) */
+/* interazione firma del design: hover solleva, active schiaccia (no blur).
+   possiede l'ombra a tutti gli stati (1 layer) -> transizione liscia, niente scatti */
 @utility interactive-brutal {
+  box-shadow: var(--shadow);
   transition:
     transform 200ms ease,
     box-shadow 200ms ease;
@@ -119,6 +121,12 @@ html {
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    transition: none !important;
+    animation: none !important;
   }
 }
 
