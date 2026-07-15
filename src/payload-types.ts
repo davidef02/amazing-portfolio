@@ -341,9 +341,11 @@ export interface Project {
     [k: string]: unknown;
   };
   screenshot: number | Media;
-  tags?: (number | null) | Tag;
-  link: string;
-  live: boolean;
+  tags?: (number | Tag)[] | null;
+  link?: string | null;
+  live?: boolean | null;
+  mainColor: 'yellow' | 'green' | 'blue' | 'red';
+  scotchColor: 'yellow' | 'green' | 'blue' | 'red';
   slug?: string | null;
   updatedAt: string;
   createdAt: string;
@@ -808,6 +810,8 @@ export interface ProjectsSelect<T extends boolean = true> {
   tags?: T;
   link?: T;
   live?: T;
+  mainColor?: T;
+  scotchColor?: T;
   slug?: T;
   updatedAt?: T;
   createdAt?: T;

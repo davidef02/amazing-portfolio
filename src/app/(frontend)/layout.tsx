@@ -25,11 +25,17 @@ export async function generateMetadata(): Promise<Metadata> {
       ? siteConfig.seo.metaImage.url
       : undefined;
 
+  const faviconUrl =
+    typeof siteConfig.favicon === "object" && siteConfig.favicon
+      ? siteConfig.favicon.url
+      : undefined;
+
   return {
     metadataBase: new URL(getServerSideURL()),
     title: siteConfig.seo.metaTitle,
     description: siteConfig.seo.metaDescription,
     alternates: { canonical: siteConfig.seo.metaLink },
+    icons: faviconUrl ? { icon: faviconUrl } : undefined,
 
     openGraph: {
       title: siteConfig.seo.metaTitle,

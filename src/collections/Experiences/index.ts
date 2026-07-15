@@ -1,6 +1,6 @@
 import type { CollectionConfig } from "payload";
 import { slugField } from "@/fields/slugField";
-import { THEME_COLORS } from "@/const/colors";
+import { THEME_COLORS, THEME_COLOR_LABELS } from "@/const/colors";
 
 export const Experiences: CollectionConfig = {
   slug: "experiences",
@@ -18,7 +18,7 @@ export const Experiences: CollectionConfig = {
     {
       name: "color",
       type: "select",
-      options: THEME_COLORS.map((color) => color),
+      options: THEME_COLORS.map((c) => ({ label: THEME_COLOR_LABELS[c], value: c })),
       required: true,
     },
     { name: "startDate", type: "date", required: true },

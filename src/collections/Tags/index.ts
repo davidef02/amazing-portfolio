@@ -5,8 +5,12 @@ export const Tags: CollectionConfig = {
   slug: "tags",
 
   labels: {
-    singular: "tag",
-    plural: "tags",
+    singular: "Tag",
+    plural: "Tags",
+  },
+
+  admin: {
+    useAsTitle: "title",
   },
 
   fields: [{ name: "title", type: "text", required: true }, slugField("title")],

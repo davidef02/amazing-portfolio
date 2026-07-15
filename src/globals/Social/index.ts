@@ -1,5 +1,5 @@
 import { GlobalConfig } from "payload";
-import { THEME_COLORS } from "@/const/colors";
+import { THEME_COLORS, THEME_COLOR_LABELS } from "@/const/colors";
 
 export const Social: GlobalConfig = {
   slug: "social",
@@ -21,7 +21,7 @@ export const Social: GlobalConfig = {
         {
           name: "color",
           type: "select",
-          options: THEME_COLORS.map((color) => color),
+          options: THEME_COLORS.map((c) => ({ label: THEME_COLOR_LABELS[c], value: c })),
           required: true,
         },
       ],

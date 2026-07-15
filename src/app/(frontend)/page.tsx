@@ -1,9 +1,35 @@
-import React from "react";
+import Header from "@/components/Header";
+import Hero from "@/components/Hero";
+import Skills from "@/components/Skills";
+import Projects from "@/components/Projects";
+import Experience from "@/components/Experience";
+import Contact from "@/components/Contact";
+import Footer from "@/components/Footer";
 
-export default async function Page() {
+const section = "mx-auto max-w-[1100px] scroll-mt-[88px] px-4 py-12";
+
+export default function Page() {
   return (
-    <main className="min-h-screen flex items-center justify-center bg-neo-bg text-black font-sans">
-      <h1 className="text-4xl font-black uppercase border-4 border-black p-4 bg-neo-yellow shadow-neo"></h1>
+    <main>
+      <Header />
+      <section id="hero" className="mx-auto max-w-[1100px] scroll-mt-[88px] px-4 pb-12 pt-16">
+        <Hero />
+      </section>
+      <section id="skills" className={section}>
+        <Skills />
+      </section>
+      <section id="projects" className={section}>
+        <Projects />
+      </section>
+      <section id="experience" className={section}>
+        <Experience />
+      </section>
+      <section id="contact" className={section}>
+        <Contact />
+      </section>
+      <footer className="mx-auto max-w-[1100px] px-4 pb-10 pt-2">
+        <Footer />
+      </footer>
     </main>
   );
 }
