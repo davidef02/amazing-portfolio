@@ -33,6 +33,14 @@ const nextConfig: NextConfig = {
           protocol: url.protocol.replace(':', '') as 'http' | 'https',
         }
       }),
+      {
+        hostname: 'media.davidefantauzzi.me',
+        protocol: 'https',
+      },
+      {
+        hostname: 'media.davidefantauzzi.com',
+        protocol: 'https',
+      },
     ],
   },
   webpack: (webpackConfig) => {

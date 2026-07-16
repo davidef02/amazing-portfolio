@@ -19,6 +19,7 @@ import { CUSTOM_HTML_EMAIL } from "./const/email";
 import { Social } from "@/globals/Social";
 import { resendAdapter } from "@payloadcms/email-resend";
 import { Tags } from "@/collections/Tags";
+import { s3Storage } from "@payloadcms/storage-s3";
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
@@ -65,6 +66,26 @@ export default buildConfig({
           subject: `${formData.name || "Un utente"} ti ha contattato dal portfolio`,
           html: CUSTOM_HTML_EMAIL(email),
         }));
+      },
+    }),
+    s3Storage({
+      collections: {
+        media: {
+          prefix: "media",
+          disableLocalStorage: true,
+          generateFileURL: ({ filename, prefix }) => {
+            return `https://media.davidefantauzzi.me/${prefix}/${filename}`;
+          },
+        },
+      },
+      bucket: process.env.R2_BUCKET_NAME || "portfolio-media",
+      config: {
+        credentials: {
+          accessKeyId: process.env.R2_ACCESS_KEY_ID || "",
+          secretAccessKey: process.env.R2_SECRET_ACCESS_KEY || "",
+        },
+        region: "auto",
+        endpoint: process.env.R2_ENDPOINT || "",
       },
     }),
   ],
