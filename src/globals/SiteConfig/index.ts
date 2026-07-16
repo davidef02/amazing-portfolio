@@ -2,9 +2,14 @@ import type { GlobalConfig } from "payload";
 import { THEME_COLORS, THEME_COLOR_LABELS } from "@/const/colors";
 import { anyone } from "@/access/anyone";
 import { authenticated } from "@/access/authenticated";
+import { revalidateFrontendGlobal } from "@/hooks/revalidate";
 
 export const SiteConfig: GlobalConfig = {
   slug: "siteConfig",
+
+  hooks: {
+    afterChange: [revalidateFrontendGlobal],
+  },
 
   access: {
     read: anyone,

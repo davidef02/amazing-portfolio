@@ -3,9 +3,15 @@ import { slugField } from "@/fields/slugField";
 import { THEME_COLORS, THEME_COLOR_LABELS } from "@/const/colors";
 import { anyone } from "@/access/anyone";
 import { authenticated } from "@/access/authenticated";
+import { revalidateFrontend, revalidateFrontendAfterDelete } from "@/hooks/revalidate";
 
 export const Experiences: CollectionConfig = {
   slug: "experiences",
+
+  hooks: {
+    afterChange: [revalidateFrontend],
+    afterDelete: [revalidateFrontendAfterDelete],
+  },
 
   access: {
     read: anyone,

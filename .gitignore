@@ -46,3 +46,7 @@ next-env.d.ts
 /playwright-report/
 /blob-report/
 /playwright/.cache/
+
+# Sitemap/robots: ora generati a runtime da src/app/sitemap.ts e src/app/robots.ts
+/public/sitemap.xml
+/public/robots.txt

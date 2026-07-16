@@ -3,9 +3,15 @@ import { slugField } from "@/fields/slugField";
 import { THEME_COLORS, THEME_COLOR_LABELS } from "@/const/colors";
 import { authenticated } from "@/access/authenticated";
 import { authenticatedOrPublished } from "@/access/authenticatedOrPublished";
+import { revalidateFrontend, revalidateFrontendAfterDelete } from "@/hooks/revalidate";
 
 export const Projects: CollectionConfig = {
   slug: "projects",
+
+  hooks: {
+    afterChange: [revalidateFrontend],
+    afterDelete: [revalidateFrontendAfterDelete],
+  },
 
   access: {
     read: authenticatedOrPublished,

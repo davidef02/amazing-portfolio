@@ -1,10 +1,15 @@
 import { GlobalConfig } from "payload";
 import { anyone } from "@/access/anyone";
 import { authenticated } from "@/access/authenticated";
+import { revalidateFrontendGlobal } from "@/hooks/revalidate";
 
 export const Footer: GlobalConfig = {
   label: "Footer",
   slug: "footer",
+
+  hooks: {
+    afterChange: [revalidateFrontendGlobal],
+  },
 
   access: {
     read: anyone,

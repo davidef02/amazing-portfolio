@@ -2,10 +2,15 @@ import { GlobalConfig } from "payload";
 import { THEME_COLORS, THEME_COLOR_LABELS } from "@/const/colors";
 import { anyone } from "@/access/anyone";
 import { authenticated } from "@/access/authenticated";
+import { revalidateFrontendGlobal } from "@/hooks/revalidate";
 
 export const Header: GlobalConfig = {
   label: "Header",
   slug: "header",
+
+  hooks: {
+    afterChange: [revalidateFrontendGlobal],
+  },
 
   access: {
     read: anyone,
