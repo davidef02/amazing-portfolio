@@ -9,6 +9,9 @@
 /build
 dist/
 
+# Backup dati DB (contengono contenuti, non committare)
+/backups/
+
 # File di ambiente e chiavi segrete (FONDAMENTALE per il DB Supabase)
 .env
 .env*.local

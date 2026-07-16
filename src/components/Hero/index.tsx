@@ -6,11 +6,12 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import RichText from "@/components/RichText";
 import { externalLinkProps } from "@/utilities/link";
+import type { Locale } from "@/i18n/config";
 
-export default async function Hero() {
+export default async function Hero({ locale }: { locale: Locale }) {
   const payload = await getPayload({ config });
   const [hero, site] = await Promise.all([
-    payload.findGlobal({ slug: "hero" }),
+    payload.findGlobal({ slug: "hero", locale }),
     payload.findGlobal({ slug: "siteConfig", select: { fullName: true } }),
   ]);
 

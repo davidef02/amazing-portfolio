@@ -4,17 +4,42 @@ import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { BG } from "@/const/colors";
 import type { Header } from "@/payload-types";
+import { locales, type Locale } from "@/i18n/config";
 import useScrollPastId from "./use-scroll-past-id";
 
 type Props = {
   navItems: NonNullable<Header["navItems"]>;
   badgeColor: Header["badgeColor"];
+  locale: Locale;
+  aria: { sections: string; toggleMenu: string; switchLanguage: string };
 };
 
 const navBtn =
   "interactive-brutal rounded-base border-2 border-black px-3.5 py-2 text-[12.5px] font-extrabold uppercase tracking-wide";
 
-export default function HeaderClient({ navItems, badgeColor }: Props) {
+// switch lingua: link statici a /<locale> (sito single-page, lo switch cambia solo la locale)
+function LangSwitch({ locale, label }: { locale: Locale; label: string }) {
+  return (
+    <div role="group" aria-label={label} className="flex gap-1.5">
+      {locales.map((l) => (
+        <a
+          key={l}
+          href={`/${l}`}
+          hrefLang={l}
+          aria-current={l === locale ? "true" : undefined}
+          className={cn(
+            "interactive-brutal rounded-base border-2 border-black px-2.5 py-2 text-[12.5px] font-extrabold uppercase",
+            l === locale ? "bg-main" : "bg-white",
+          )}
+        >
+          {l}
+        </a>
+      ))}
+    </div>
+  );
+}
+
+export default function HeaderClient({ navItems, badgeColor, locale, aria }: Props) {
   const active = useScrollPastId(navItems.map((i) => i.link.replace(/^#/, "")));
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -23,7 +48,7 @@ export default function HeaderClient({ navItems, badgeColor }: Props) {
   return (
     <>
       {/* nav desktop (>=880px) */}
-      <nav aria-label="Sections" className="hidden gap-2.5 min-[880px]:flex">
+      <nav aria-label={aria.sections} className="hidden items-center gap-2.5 min-[880px]:flex">
         {navItems.map((item) => (
           <a
             key={item.id}
@@ -33,12 +58,13 @@ export default function HeaderClient({ navItems, badgeColor }: Props) {
             {item.title}
           </a>
         ))}
+        <LangSwitch locale={locale} label={aria.switchLanguage} />
       </nav>
 
       {/* hamburger (<880px) */}
       <button
         type="button"
-        aria-label="Toggle menu"
+        aria-label={aria.toggleMenu}
         aria-expanded={menuOpen}
         onClick={() => setMenuOpen((o) => !o)}
         className={cn(
@@ -64,6 +90,7 @@ export default function HeaderClient({ navItems, badgeColor }: Props) {
               {item.title}
             </a>
           ))}
+          <LangSwitch locale={locale} label={aria.switchLanguage} />
         </div>
       )}
     </>

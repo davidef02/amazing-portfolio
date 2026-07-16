@@ -4,23 +4,28 @@ import { cn } from "@/lib/utils";
 import { BG } from "@/const/colors";
 import { SectionHeading } from "@/components/SectionHeading";
 import { externalLinkProps } from "@/utilities/link";
+import type { Locale } from "@/i18n/config";
+import { getDictionary } from "@/i18n/dictionaries";
 import ContactClient from "./contact-client";
 
-export default async function Contact() {
+export default async function Contact({ locale }: { locale: Locale }) {
   const payload = await getPayload({ config });
-  const social = await payload.findGlobal({ slug: "social", depth: 1 });
+  const header = await payload.findGlobal({ slug: "header", locale });
+  const sectionTitle = header.navItems?.find(i => i.link === "#contact")?.title || "Contact";
+  const t = getDictionary(locale);
+  const social = await payload.findGlobal({ slug: "social", depth: 1, locale });
   const form = typeof social.contactForm === "object" ? social.contactForm : null;
 
   return (
     <div>
-      <SectionHeading num="04" title="Contact" />
+      <SectionHeading num="04" title={sectionTitle} />
       <div className="grid grid-cols-[repeat(auto-fit,minmax(290px,1fr))] items-start gap-6">
         {/* form: FE in contact-client, submit = seam (lo fai tu) */}
-        {form && <ContactClient form={form} messages={social.toast} />}
+        {form && <ContactClient form={form} messages={social.toast} t={t.contact} />}
 
         {/* elsewhere */}
         <div className="flex flex-col gap-3.5 rounded-base border-2 border-black bg-white p-[22px] shadow-brutal">
-          <h3 className="text-lg font-black uppercase">Elsewhere</h3>
+          <h3 className="text-lg font-black uppercase">{t.contact.elsewhere}</h3>
           {social.socialDescription && (
             <p className="text-sm font-medium leading-[1.55]">{social.socialDescription}</p>
           )}

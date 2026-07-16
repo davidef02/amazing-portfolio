@@ -9,16 +9,27 @@ import "./globals.css";
 import { getServerSideURL } from "@/utilities/getURL";
 import { getPayload } from "payload";
 import config from "@payload-config";
+import { locales, defaultLocale, isLocale, type Locale } from "@/i18n/config";
+import { notFound } from "next/navigation";
 
-// dato che siteconfig serve sia in generate metadata che rootlayout, faccio l'operazione
-// una singola volta e la salvo in cache
-const getSiteConfig = cache(async () => {
+// siteConfig serve sia in generateMetadata che nel layout: fetch localizzato una
+// volta per locale (React cache dedup per argomento).
+const getSiteConfig = cache(async (locale: Locale) => {
   const payload = await getPayload({ config });
-  return await payload.findGlobal({ slug: "siteConfig", depth: 1 });
+  return await payload.findGlobal({ slug: "siteConfig", depth: 1, locale });
 });
 
-export async function generateMetadata(): Promise<Metadata> {
-  const siteConfig = await getSiteConfig();
+const OG_LOCALE: Record<Locale, string> = { en: "en_US", it: "it_IT" };
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale: raw } = await params;
+  const locale: Locale = isLocale(raw) ? raw : defaultLocale;
+  const siteConfig = await getSiteConfig(locale);
+  const serverURL = getServerSideURL();
 
   const shareImage =
     typeof siteConfig.seo.metaImage === "object" && siteConfig.seo.metaImage
@@ -30,19 +41,28 @@ export async function generateMetadata(): Promise<Metadata> {
       ? siteConfig.favicon.url
       : undefined;
 
+  const canonical = `${serverURL}/${locale}`;
+
   return {
-    metadataBase: new URL(getServerSideURL()),
+    metadataBase: new URL(serverURL),
     title: siteConfig.seo.metaTitle,
     description: siteConfig.seo.metaDescription,
-    alternates: { canonical: siteConfig.seo.metaLink },
+    alternates: {
+      canonical,
+      languages: {
+        ...Object.fromEntries(locales.map((l) => [l, `${serverURL}/${l}`])),
+        "x-default": `${serverURL}/${defaultLocale}`,
+      },
+    },
     icons: faviconUrl ? { icon: faviconUrl } : undefined,
 
     openGraph: {
       title: siteConfig.seo.metaTitle,
       description: siteConfig.seo.metaDescription,
-      url: siteConfig.seo.metaLink,
+      url: canonical,
       siteName: siteConfig.siteTitle,
       type: "website",
+      locale: OG_LOCALE[locale],
       images: shareImage
         ? [
             {
@@ -64,8 +84,16 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-export default async function RootLayout({ children }: { children: React.ReactNode }) {
-  const siteConfig = await getSiteConfig();
+export default async function RootLayout({
+  children,
+  params,
+}: {
+  children: React.ReactNode;
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  if (!isLocale(locale)) notFound();
+  const siteConfig = await getSiteConfig(locale);
 
   const hexes = siteConfig.colors?.selection ?? {};
   const mainColor = siteConfig.colors?.mainColor ?? "yellow";
@@ -80,7 +108,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   } as React.CSSProperties;
 
   return (
-    <html className={cn(GeistSans.variable, GeistMono.variable)} lang="en">
+    <html className={cn(GeistSans.variable, GeistMono.variable)} lang={locale}>
       <body style={colors}>
         {children}
         <Toaster />

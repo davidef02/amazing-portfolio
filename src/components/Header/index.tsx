@@ -3,11 +3,14 @@ import { getPayload } from "payload";
 import { cn } from "@/lib/utils";
 import { BG } from "@/const/colors";
 import HeaderClient from "@/components/Header/header-client";
+import type { Locale } from "@/i18n/config";
+import { getDictionary } from "@/i18n/dictionaries";
 
-export default async function Header() {
+export default async function Header({ locale }: { locale: Locale }) {
   const payload = await getPayload({ config });
+  const t = getDictionary(locale);
   const [header, site] = await Promise.all([
-    payload.findGlobal({ slug: "header" }),
+    payload.findGlobal({ slug: "header", locale }),
     payload.findGlobal({ slug: "siteConfig", select: { fullName: true } }),
   ]);
 
@@ -29,7 +32,12 @@ export default async function Header() {
             <span>{site.fullName}</span>
           </a>
           {/* isola client: riceve dati come props */}
-          <HeaderClient navItems={header.navItems ?? []} badgeColor={header.badgeColor} />
+          <HeaderClient
+            navItems={header.navItems ?? []}
+            badgeColor={header.badgeColor}
+            locale={locale}
+            aria={t.aria}
+          />
         </header>
       </div>
     </>

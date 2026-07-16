@@ -20,8 +20,8 @@ export const Projects: CollectionConfig = {
   },
 
   fields: [
-    { name: "title", type: "text", required: true },
-    { name: "description", type: "richText", required: true },
+    { name: "title", type: "text", required: true, localized: true },
+    { name: "description", type: "richText", required: true, localized: true },
     { name: "screenshot", type: "upload", relationTo: "media", required: true },
     { name: "tags", type: "relationship", relationTo: "tags", hasMany: true },
     { name: "link", type: "text" },

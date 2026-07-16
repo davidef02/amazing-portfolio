@@ -17,6 +17,7 @@ export const Hero: GlobalConfig = {
       name: "heroDescription",
       type: "richText",
       required: true,
+      localized: true,
       label: "Hero description",
     },
     {

@@ -2,54 +2,80 @@ import { useEffect, useState } from "react";
 
 export default function useScrollPastId(ids: string[]): string {
   const [activeElem, setActiveElem] = useState<string>("");
-  const elementIds = ids.join(","); // x evitare riesecuzione di useeffect ad ogni rerender
+  const elementIds = ids.join(",");
 
   useEffect(() => {
-    if (typeof window === "undefined" || !("IntersectionObserver" in window)) return;
+    if (typeof window === "undefined") return;
 
     const idList = elementIds ? elementIds.split(",") : [];
-    const visible = new Map<string, boolean>(); // id -> sta intersecando la banda?
-
-    // priorità: sezione-in-banda > fondo-pagina > sopra-tutto (hero) > mantieni ultimo
+    
     const compute = () => {
-      // ultimo (in ordine documento) che interseca: con banda in alto è la sezione in cui sei entrato
-      const current = idList.filter((id) => visible.get(id)).pop();
-      if (current) {
-        setActiveElem(current);
-        return;
-      }
-      // fondo pagina: l'ultima sezione (contact) non entra mai nella banda -> forzala
+      // 1. Fallback assoluto: se la pagina è finita, vince l'ultimo elemento
       const atBottom =
-        window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2;
+        Math.ceil(window.innerHeight + window.scrollY) >=
+        document.documentElement.scrollHeight - 50;
+      
       if (atBottom && idList.length) {
         setActiveElem(idList[idList.length - 1]);
         return;
       }
-      // sopra la prima sezione (in hero) -> nessuna attiva
-      const first = document.getElementById(idList[0]);
-      if (first && first.getBoundingClientRect().top > 88) setActiveElem("");
+
+      // 2. Reading Line: una linea immaginaria a circa 1/3 dello schermo
+      const readingLine = window.innerHeight * 0.33;
+      let currentActive = "";
+      let minDistance = Infinity;
+
+      // Trova l'elemento che attraversa la reading line
+      idList.forEach((id) => {
+        const el = document.getElementById(id);
+        if (!el) return;
+        const rect = el.getBoundingClientRect();
+        
+        // Se la sezione contiene la reading line (inizia sopra e finisce sotto)
+        if (rect.top <= readingLine && rect.bottom >= readingLine) {
+          currentActive = id;
+        }
+      });
+
+      // Se siamo nello spazio tra due sezioni, cerchiamo quella più vicina alla reading line
+      if (!currentActive) {
+        idList.forEach((id) => {
+          const el = document.getElementById(id);
+          if (!el) return;
+          const rect = el.getBoundingClientRect();
+          
+          const distanceToTop = Math.abs(rect.top - readingLine);
+          const distanceToBottom = Math.abs(rect.bottom - readingLine);
+          const closest = Math.min(distanceToTop, distanceToBottom);
+          
+          if (closest < minDistance) {
+            minDistance = closest;
+            currentActive = id;
+          }
+        });
+      }
+
+      // Se la primissima sezione è ancora tutta sotto la reading line, non attiviamo nulla
+      const firstEl = document.getElementById(idList[0]);
+      if (firstEl && firstEl.getBoundingClientRect().top > readingLine) {
+        setActiveElem("");
+        return;
+      }
+
+      if (currentActive) {
+        setActiveElem(currentActive);
+      }
     };
 
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => visible.set(entry.target.id, entry.isIntersecting));
-      compute();
-    }, {
-      root: null,
-      threshold: 0,
-      rootMargin: "-88px 0px -85% 0px", // banda sottile sotto l'header (88px) -> ~15% viewport
-    });
-
-    idList.forEach((id) => {
-      const el = document.getElementById(id);
-      if (el) observer.observe(el);
-    });
-
+    // Usiamo il listener passivo. getBoundingClientRect in sola lettura non causa reflow
+    // ed è estremamente preciso rispetto ai bug dell'IntersectionObserver su altezze strane.
     window.addEventListener("scroll", compute, { passive: true });
     window.addEventListener("resize", compute);
+    
+    // Inizializza subito
     compute();
 
     return () => {
-      observer.disconnect();
       window.removeEventListener("scroll", compute);
       window.removeEventListener("resize", compute);
     };

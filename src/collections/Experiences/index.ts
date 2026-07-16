@@ -22,8 +22,8 @@ export const Experiences: CollectionConfig = {
   orderable: true,
 
   fields: [
-    { name: "title", type: "text", required: true },
-    { name: "description", type: "text", required: true },
+    { name: "title", type: "text", required: true, localized: true },
+    { name: "description", type: "text", required: true, localized: true },
     {
       name: "color",
       type: "select",

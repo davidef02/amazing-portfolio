@@ -50,7 +50,7 @@ export const SiteConfig: GlobalConfig = {
       type: "group",
       fields: [
         { name: "metaTitle", type: "text", required: true },
-        { name: "metaDescription", type: "text", required: true },
+        { name: "metaDescription", type: "text", required: true, localized: true },
         { name: "metaLink", type: "text", required: true },
         {
           name: "metaImage",

@@ -16,6 +16,7 @@ export const Footer: GlobalConfig = {
       name: "footerDescription",
       type: "richText",
       required: true,
+      localized: true,
       label: "Written nonsense in the footer of the page",
     },
   ],

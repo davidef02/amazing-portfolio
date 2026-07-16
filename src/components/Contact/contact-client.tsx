@@ -25,9 +25,12 @@ const inputClass = "h-auto p-3 text-base font-semibold";
 export default function ContactClient({
   form,
   messages,
+  t,
 }: {
   form: Form;
-  messages?: Social["toast"];
+  // contenuto toast dal CMS (Social.toast, localizzato) — sempre presente
+  messages: Social["toast"];
+  t: { send: string; sending: string };
 }) {
   const [pending, setPending] = useState(false);
 
@@ -47,13 +50,9 @@ export default function ContactClient({
       });
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       formEl.reset();
-      toast.success(messages?.successTitle ?? "Message sent!", {
-        description: messages?.successMessage ?? "I'll get back to you soon.",
-      });
+      toast.success(messages.successTitle, { description: messages.successMessage });
     } catch {
-      toast.error(messages?.errorTitle ?? "Something went wrong", {
-        description: messages?.errorMessage ?? "Try again in a bit.",
-      });
+      toast.error(messages.errorTitle, { description: messages.errorMessage });
     } finally {
       setPending(false);
     }
@@ -110,7 +109,7 @@ export default function ContactClient({
         disabled={pending}
         className="h-auto px-5.5 py-3.5 text-[15px] font-black uppercase tracking-wide"
       >
-        {pending ? "Sending…" : "Send message →"}
+        {pending ? t.sending : t.send}
       </Button>
     </form>
   );

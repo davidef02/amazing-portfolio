@@ -18,10 +18,10 @@ export const Social: GlobalConfig = {
       label: "Contact form toast",
       type: "group",
       fields: [
-        { name: "successTitle", type: "text", required: true },
-        { name: "successMessage", type: "text", required: true },
-        { name: "errorTitle", type: "text", required: true },
-        { name: "errorMessage", type: "text", required: true },
+        { name: "successTitle", type: "text", required: true, localized: true },
+        { name: "successMessage", type: "text", required: true, localized: true },
+        { name: "errorTitle", type: "text", required: true, localized: true },
+        { name: "errorMessage", type: "text", required: true, localized: true },
       ],
     },
     {
@@ -29,6 +29,7 @@ export const Social: GlobalConfig = {
       label: "Text on top of social links",
       required: false,
       type: "text",
+      localized: true,
     },
     {
       name: "links",

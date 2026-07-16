@@ -21,8 +21,8 @@ export const Skills: CollectionConfig = {
   orderable: true,
 
   fields: [
-    { name: "title", type: "text", required: true },
-    { name: "description", type: "richText" },
+    { name: "title", type: "text", required: true, localized: true },
+    { name: "description", type: "richText", localized: true },
     slugField("title"),
   ],
 };

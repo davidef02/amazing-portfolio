@@ -45,6 +45,14 @@ export default buildConfig({
     },
   }),
   collections: [Media, Users, Skills, Projects, Experiences, Tags],
+  localization: {
+    locales: [
+      { code: "en", label: "English" },
+      { code: "it", label: "Italiano" },
+    ],
+    defaultLocale: "en",
+    fallback: true,
+  },
   cors: [getServerSideURL()].filter(Boolean),
   globals: [SiteConfig, Header, Footer, Hero, Social],
   plugins: [

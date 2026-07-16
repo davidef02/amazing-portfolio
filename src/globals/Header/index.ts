@@ -24,7 +24,7 @@ export const Header: GlobalConfig = {
       name: "navItems",
       type: "array",
       fields: [
-        { name: "title", type: "text", required: true },
+        { name: "title", type: "text", required: true, localized: true },
         { name: "link", type: "text", required: true },
       ],
     },

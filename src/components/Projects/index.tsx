@@ -1,22 +1,28 @@
 import config from "@payload-config";
 import { getPayload } from "payload";
 import { SectionHeading } from "@/components/SectionHeading";
+import type { Locale } from "@/i18n/config";
+import { getDictionary } from "@/i18n/dictionaries";
 import ProjectCard from "./project-card";
 
-export default async function Projects() {
+export default async function Projects({ locale }: { locale: Locale }) {
   const payload = await getPayload({ config });
+  const header = await payload.findGlobal({ slug: "header", locale });
+  const sectionTitle = header.navItems?.find(i => i.link === "#projects")?.title || "Projects";
+  const t = getDictionary(locale);
   const { docs: projects } = await payload.find({
     collection: "projects",
     limit: 100,
     depth: 1,
+    locale,
     where: { _status: { equals: "published" } },
   });
 
   return (
     <div>
-      <SectionHeading num="02" title="Projects">
+      <SectionHeading num="02" title={sectionTitle}>
         <span className="rounded-base border-2 border-black bg-hot-pink px-2.5 py-1 font-mono text-xs font-bold">
-          click a card to flip it ↓
+          {t.projects.flipHint}
         </span>
       </SectionHeading>
 

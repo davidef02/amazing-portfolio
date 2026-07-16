@@ -3,21 +3,26 @@ import { getPayload } from "payload";
 import { cn } from "@/lib/utils";
 import { BG } from "@/const/colors";
 import { SectionHeading } from "@/components/SectionHeading";
+import type { Locale } from "@/i18n/config";
+import { getDictionary } from "@/i18n/dictionaries";
 
-const fmt = (d: string) =>
-  new Date(d).toLocaleDateString("en", { month: "short", year: "numeric" });
-
-export default async function Experience() {
+export default async function Experience({ locale }: { locale: Locale }) {
   const payload = await getPayload({ config });
+  const header = await payload.findGlobal({ slug: "header", locale });
+  const sectionTitle = header.navItems?.find(i => i.link === "#experiences")?.title || "Experiences";
+  const t = getDictionary(locale);
+  const fmt = (d: string) =>
+    new Date(d).toLocaleDateString(locale, { month: "short", year: "numeric" });
   const { docs: experiences } = await payload.find({
     collection: "experiences",
     limit: 100,
     sort: "_order",
+    locale,
   });
 
   return (
     <div>
-      <SectionHeading num="03" title="Experiences" />
+      <SectionHeading num="03" title={sectionTitle} />
       <ol className="ml-3 flex flex-col gap-6 border-l-2 border-black">
         {experiences.map((e) => (
           <li key={e.id} className="relative pl-6">
@@ -31,7 +36,7 @@ export default async function Experience() {
               <div className="flex flex-wrap items-center justify-between gap-2">
                 <h3 className="text-[17px] font-black uppercase">{e.title}</h3>
                 <span className="font-mono text-xs font-semibold text-black/60">
-                  {fmt(e.startDate)} — {e.endDate ? fmt(e.endDate) : "Present"}
+                  {fmt(e.startDate)} — {e.endDate ? fmt(e.endDate) : t.experiences.present}
                 </span>
               </div>
               <p className="mt-1.5 text-sm font-medium leading-[1.55]">{e.description}</p>
