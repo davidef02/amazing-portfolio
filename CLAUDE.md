@@ -48,8 +48,8 @@ Live at **https://www.davidefantauzzi.me**. Deployed from the `prod` branch.
 - [x] Access control — all collections/globals explicit: public read (`anyone`), authenticated writes; Projects read = `authenticatedOrPublished` (has drafts).
 - [x] Frontend shows only published projects (`where: { _status: { equals: "published" } }`).
 - [x] Production build green (SSG both locales + sitemap).
-- [x] IT/EN localization — code + schema push + deploy DONE. Bilingual EN-primary (`/`→`/en`, `/it`), Payload `defaultLocale: 'en'`, `fallback: true`; `localized:true` on all content fields; `[locale]` route + `src/middleware.ts`; `generateStaticParams`+`dynamicParams=false`; `IT|EN` switcher in Header; per-locale `generateMetadata` + hreflang/x-default/canonical. Spec: `docs/superpowers/specs/2026-07-16-bilingual-localization-design.md`. ⚠️ IT *content* may still be incomplete/untranslated — see urgent post-release #4.
-- [x] SEO — SiteConfig.seo populated; `next-sitemap` siteUrl fixed to prod, emits `/en`+`/it` with hreflang alternateRefs, robots blocks admin/api.
+- [x] IT/EN localization — code + schema push + deploy DONE. Bilingual EN-primary (`/`→`/en`, `/it`), Payload `defaultLocale: 'en'`, `fallback: true`; `localized:true` on all content fields; `[locale]` route + `src/proxy.ts` (Next 16 renamed middleware→proxy); `generateStaticParams`+`dynamicParams=false`; `IT|EN` switcher in Header; per-locale `generateMetadata` + hreflang/x-default/canonical. Spec: `docs/superpowers/specs/2026-07-16-bilingual-localization-design.md`. ⚠️ IT *content* may still be incomplete/untranslated — see urgent post-release #4.
+- [x] SEO — SiteConfig.seo populated; sitemap/robots now via **native Next routes** (`src/app/sitemap.ts` + `robots.ts`, see task #6) — `/en`+`/it` with hreflang alternates, robots blocks admin/api. (`next-sitemap` removed.)
 - [x] Email — Resend **sandbox** `onboarding@resend.dev` (domain verification intentionally skipped; the form only notifies the owner). See Production stack → Email.
 - [x] Prod env vars set on Vercel (PAYLOAD_SECRET, DATABASE_URL, RESEND_API_KEY, NEXT_PUBLIC_SERVER_URL, CRON_SECRET).
 - [x] `next.config` remotePatterns — allows the R2 image host.
@@ -59,6 +59,15 @@ Notes:
 - Favicon is handled by the owner.
 - Target accent color: `#B6ACE4` (Lavender) via SiteConfig → Colors.
 - Form-builder collections (`forms`, `form-submissions`) keep plugin-default access (public submission create, authenticated read) — intentional for the contact form.
+
+## Architecture notes & gotchas (Next 16 + this deploy)
+
+- **Middleware is `src/proxy.ts`** — Next 16 renamed `middleware.ts` → `proxy.ts`. Handles `/`→`/en` redirect + locale guard; its matcher excludes `admin`/`api`/`_next` and any dotted path, so `/sitemap.xml` + `/robots.txt` are not redirected.
+- **Frontend is fully SSG** (`/en`, `/it`; `dynamicParams=false`) → CMS content is baked at build time. Edits appear only via **on-demand revalidation** (`src/hooks/revalidate.ts`, wired into every frontend collection + global). ⚠️ Any NEW frontend collection/global MUST add these hooks, or its edits won't show without a redeploy. This is also why "content edited in admin doesn't appear on prod" until revalidation/redeploy.
+- **Sitemap/robots are native Next routes** (`src/app/sitemap.ts`, `src/app/robots.ts`) — NOT `next-sitemap` (removed). `public/sitemap.xml` + `public/robots.txt` are gitignored; never recommit them.
+- **`NEXT_PUBLIC_SERVER_URL` on Vercel MUST be `https://www.davidefantauzzi.me`** — it drives sitemap, canonical, hreflang and OG URLs (via `getServerSideURL()`). If unset it falls back to `VERCEL_PROJECT_PRODUCTION_URL` (`*.vercel.app`) or `http://localhost:3000`.
+- **Locale switch** uses `next/link` (client nav, no full page reload); `<html data-scroll-behavior="smooth">` is set to silence the Next route-transition warning.
+- **Contact form** (form-builder, content lives in Neon): field Names are `name` (required by the `beforeEmail` subject), `contactFormEmail`, `contactFormMessage`. Field **Labels** and the Email 01 **Message** (`{{*:table}}`) are CMS content — re-enter them after any DB migration (they get wiped).
 
 ## Urgent post-release tasks (do first)
 
