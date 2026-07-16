@@ -26,7 +26,9 @@ const dirname = path.dirname(filename);
 
 export default buildConfig({
   email: resendAdapter({
-    // sandbox Resend: nessun dominio da verificare, consegna all'email del tuo account Resend
+    // Resend sandbox: invia SOLO all'indirizzo dell'account Resend (= defaultToEmail) — basta per
+    // la notifica al proprietario. Per usare noreply@davidefantauzzi.me (inviare a chiunque + inbox
+    // garantita) va prima verificato il dominio su Resend; non serve per questo portfolio.
     defaultFromAddress: "onboarding@resend.dev",
     defaultFromName: "Portfolio",
     apiKey: process.env.RESEND_API_KEY || "",
@@ -59,6 +61,24 @@ export default buildConfig({
   plugins: [
     formBuilderPlugin({
       defaultToEmail: "davide.fantauzzi02@gmail.com",
+      // `confirmationMessage` del plugin è required e blocca il salvataggio del form in admin.
+      // Il frontend non lo usa (i feedback sono toast, testo dal global Social) → reso opzionale
+      // e sempre nascosto. Non lo rimuoviamo del tutto per non forzare un drop di colonna su Neon.
+      formOverrides: {
+        fields: ({ defaultFields }) => {
+          // `confirmationMessage` (richText) è required e blocca il salvataggio del form in admin.
+          // Lo rendiamo opzionale e nascosto (il frontend usa i toast dal global Social).
+          const cm = defaultFields.find(
+            (f) => "name" in f && f.name === "confirmationMessage",
+          ) as { required?: boolean; admin?: { hidden?: boolean } } | undefined;
+          if (cm) {
+            cm.required = false;
+            cm.admin ??= {};
+            cm.admin.hidden = true;
+          }
+          return defaultFields;
+        },
+      },
       beforeEmail: (emails, beforeChangeParams) => {
         const formData = beforeChangeParams.data;
         return emails.map((email) => ({

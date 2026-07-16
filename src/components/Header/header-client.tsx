@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { BG } from "@/const/colors";
 import type { Header } from "@/payload-types";
@@ -22,7 +23,7 @@ function LangSwitch({ locale, label }: { locale: Locale; label: string }) {
   return (
     <div role="group" aria-label={label} className="flex gap-1.5">
       {locales.map((l) => (
-        <a
+        <Link
           key={l}
           href={`/${l}`}
           hrefLang={l}
@@ -33,7 +34,7 @@ function LangSwitch({ locale, label }: { locale: Locale; label: string }) {
           )}
         >
           {l}
-        </a>
+        </Link>
       ))}
     </div>
   );

@@ -69,7 +69,7 @@ export default function ContactClient({
       {form.fields?.map((f) => {
         if (!("name" in f)) return null;
         const id = `cf-${f.name}`;
-        const label = f.label || f.name;
+        const label = f.label ?? "";
 
         if (f.blockType === "textarea") {
           return (
@@ -78,7 +78,7 @@ export default function ContactClient({
                 id={id}
                 name={f.name}
                 rows={5}
-                required={!!f.required}
+                required
                 maxLength={2000}
                 className={inputClass}
                 suppressHydrationWarning
@@ -93,7 +93,7 @@ export default function ContactClient({
                 id={id}
                 name={f.name}
                 type={f.blockType}
-                required={!!f.required}
+                required
                 maxLength={200}
                 className={inputClass}
                 suppressHydrationWarning

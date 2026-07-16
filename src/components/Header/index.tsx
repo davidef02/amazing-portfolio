@@ -18,7 +18,7 @@ export default async function Header({ locale }: { locale: Locale }) {
     <>
       <div className="h-[74px]" />
       <div className="fixed inset-x-0 top-3 z-[1000] px-4">
-        <header className="mx-auto flex max-w-[1100px] items-center justify-between gap-3 rounded-base border-2 border-black bg-white px-3.5 py-2.5 shadow-brutal">
+        <header className="relative mx-auto flex max-w-[1100px] items-center justify-between gap-3 rounded-base border-2 border-black bg-white px-3.5 py-2.5 shadow-brutal">
           <a
             href="#hero"
             className="flex items-center gap-2.5 text-[17px] font-black uppercase tracking-wide"

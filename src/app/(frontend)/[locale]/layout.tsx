@@ -108,7 +108,11 @@ export default async function RootLayout({
   } as React.CSSProperties;
 
   return (
-    <html className={cn(GeistSans.variable, GeistMono.variable)} lang={locale}>
+    <html
+      className={cn(GeistSans.variable, GeistMono.variable)}
+      lang={locale}
+      data-scroll-behavior="smooth"
+    >
       <body style={colors}>
         {children}
         <Toaster />
