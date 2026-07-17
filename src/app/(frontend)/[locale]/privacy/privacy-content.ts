@@ -12,7 +12,6 @@ type Block = { p: string } | { ul: string[] } | { dl: [string, string][] };
 type Section = { n: string; title: string; body: Block[] };
 
 export type PrivacyContent = {
-  eyebrow: string;
   title: string;
   updated: string;
   lead: string;
@@ -23,7 +22,6 @@ export type PrivacyContent = {
 
 export const privacyContent: Record<Locale, PrivacyContent> = {
   en: {
-    eyebrow: "Legal",
     title: "Privacy Policy",
     updated: "Last updated: July 17, 2026",
     lead: "This notice explains how personal data collected through this website is handled, in accordance with Regulation (EU) 2016/679 (GDPR).",
@@ -143,7 +141,6 @@ export const privacyContent: Record<Locale, PrivacyContent> = {
   },
 
   it: {
-    eyebrow: "Note legali",
     title: "Privacy Policy",
     updated: "Ultimo aggiornamento: 17 luglio 2026",
     lead: "Questa informativa descrive come vengono trattati i dati personali raccolti tramite questo sito, in conformità al Regolamento (UE) 2016/679 (GDPR).",

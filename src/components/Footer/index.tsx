@@ -20,7 +20,7 @@ export default async function Footer({ locale }: { locale: Locale }) {
         </span>
         <Link
           href={`/${locale}/privacy`}
-          className="underline decoration-2 underline-offset-2 transition-brutal hover:bg-main focus-visible:focus-brutal"
+          className="underline decoration-2 underline-offset-2 hover:bg-main focus-visible:focus-brutal"
         >
           Privacy Policy
         </Link>

@@ -126,15 +126,23 @@ export default function ContactClient({
             onChange={(e) => setAgreed(e.target.checked)}
             required
             aria-describedby="cf-consent-text"
-            className="peer h-[18px] w-[18px] cursor-pointer appearance-none rounded-[3px] border-2 border-black bg-white transition-brutal checked:bg-main focus-visible:focus-brutal"
+            className="peer h-5 w-5 cursor-pointer appearance-none rounded-[3px] border-2 border-black bg-white checked:bg-main focus-visible:focus-brutal"
             suppressHydrationWarning
           />
-          <span
+          {/* spunta SVG: tratto spesso a cap quadrati (coerente col design), niente glifo testuale */}
+          <svg
             aria-hidden
-            className="pointer-events-none absolute inset-0 hidden items-center justify-center text-[12px] font-black leading-none peer-checked:flex"
+            viewBox="0 0 12 12"
+            className="pointer-events-none absolute inset-0 m-auto hidden h-3 w-3 peer-checked:block"
           >
-            ✓
-          </span>
+            <path
+              d="M1.5 6.5 4.5 9.5 10.5 2"
+              fill="none"
+              stroke="black"
+              strokeWidth="2.5"
+              strokeLinecap="square"
+            />
+          </svg>
         </span>
         <span id="cf-consent-text">
           {t.consentBefore}{" "}
@@ -143,7 +151,7 @@ export default function ContactClient({
             target="_blank"
             rel="noopener noreferrer"
             onClick={(e) => e.stopPropagation()}
-            className="font-bold underline decoration-2 underline-offset-2 transition-brutal hover:bg-main focus-visible:focus-brutal"
+            className="font-bold underline decoration-2 underline-offset-2 hover:bg-main focus-visible:focus-brutal"
           >
             {t.consentLink}
           </a>{" "}

@@ -40,9 +40,10 @@ export async function generateMetadata({
   };
 }
 
-// link inline testo (accento brutal: underline + hover accent)
+// link inline testo (accento brutal: underline + hover accent istantaneo — niente transition
+// sul background: la bezier con overshoot di transition-brutal fa "flashare" il colore)
 const linkClass =
-  "font-bold underline decoration-2 underline-offset-[3px] transition-brutal hover:bg-main focus-visible:focus-brutal";
+  "font-bold underline decoration-2 underline-offset-[3px] hover:bg-main focus-visible:focus-brutal";
 
 const emailLink = (
   <a href={`mailto:${PRIVACY_EMAIL}`} className={cn(linkClass, "break-words")}>
@@ -102,10 +103,7 @@ export default async function PrivacyPage({
 
       {/* intestazione documento */}
       <header className="mb-9">
-        <span className="inline-block rounded-base border-2 border-black bg-main px-2.5 py-1.5 text-[12px] font-black uppercase tracking-wide shadow-brutal">
-          {c.eyebrow}
-        </span>
-        <h1 className="mt-4 text-[clamp(34px,6vw,56px)] font-black uppercase leading-[0.95] tracking-[-0.02em]">
+        <h1 className="text-[clamp(34px,6vw,56px)] font-black uppercase leading-[0.95] tracking-[-0.02em]">
           {c.title}
         </h1>
         <p className="mt-3 font-mono text-[12.5px] font-semibold uppercase tracking-wide text-foreground/55">
