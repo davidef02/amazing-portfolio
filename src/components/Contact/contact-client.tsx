@@ -48,9 +48,13 @@ export default function ContactClient({
   // best practice form-builder: POST /api/form-submissions con { form, submissionData }
   const submit = async (formEl: HTMLFormElement) => {
     const data = new FormData(formEl);
-    const submissionData = (form.fields ?? []).flatMap((f) =>
-      "name" in f ? [{ field: f.name, value: String(data.get(f.name) ?? "") }] : []
-    );
+    const submissionData = [
+      ...(form.fields ?? []).flatMap((f) =>
+        "name" in f ? [{ field: f.name, value: String(data.get(f.name) ?? "") }] : []
+      ),
+      // honeypot anti-spam: vuoto per gli umani; se un bot lo compila il server scarta la submission
+      { field: "website", value: String(data.get("website") ?? "") },
+    ];
 
     setPending(true);
     try {
@@ -115,6 +119,19 @@ export default function ContactClient({
         }
         return null;
       })}
+
+      {/* honeypot anti-spam: fuori schermo (non display:none, molti bot lo saltano), mai focusabile */}
+      <div aria-hidden="true" className="absolute -left-[9999px] h-px w-px overflow-hidden">
+        <label htmlFor="cf-website">Website</label>
+        <input
+          id="cf-website"
+          type="text"
+          name="website"
+          tabIndex={-1}
+          autoComplete="off"
+          suppressHydrationWarning
+        />
+      </div>
 
       {/* consenso privacy: obbligatorio, gate all'invio */}
       <label className="flex cursor-pointer items-start gap-2.5 text-[13px] font-medium leading-[1.45]">

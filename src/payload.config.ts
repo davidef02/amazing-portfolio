@@ -1,7 +1,7 @@
 import { postgresAdapter } from "@payloadcms/db-postgres";
 import sharp from "sharp";
 import path from "path";
-import { buildConfig, PayloadRequest } from "payload";
+import { APIError, buildConfig, PayloadRequest } from "payload";
 import { fileURLToPath } from "url";
 import { Skills } from "./collections/Skills";
 import { Media } from "./collections/Media";
@@ -81,6 +81,27 @@ export default buildConfig({
             cm.admin.hidden = true;
           }
           return defaultFields;
+        },
+      },
+      // honeypot anti-spam: il frontend invia sempre un campo nascosto `website` vuoto; i bot lo
+      // compilano → 400 in beforeValidate = niente salvataggio e niente email (sendEmail è in
+      // afterChange). Se vuoto, la riga viene rimossa così non finisce né in DB né in {{*:table}}.
+      formSubmissionOverrides: {
+        hooks: {
+          beforeValidate: [
+            ({ data }) => {
+              type Entry = { field?: string; value?: unknown };
+              const entries: Entry[] = data?.submissionData ?? [];
+              const trap = entries.find((e) => e.field === "website");
+              if (trap && String(trap.value ?? "").trim() !== "") {
+                throw new APIError("Invalid submission", 400);
+              }
+              if (data) {
+                data.submissionData = entries.filter((e) => e.field !== "website");
+              }
+              return data;
+            },
+          ],
         },
       },
       beforeEmail: (emails, beforeChangeParams) => {
