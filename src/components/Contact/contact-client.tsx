@@ -136,7 +136,7 @@ export default function ContactClient({
             className="pointer-events-none absolute inset-0 m-auto hidden h-3 w-3 peer-checked:block"
           >
             <path
-              d="M1.5 6.5 4.5 9.5 10.5 2"
+              d="M1.5 5.75 4.5 8.75 10.5 1.25"
               fill="none"
               stroke="black"
               strokeWidth="2.5"
