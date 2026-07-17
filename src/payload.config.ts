@@ -64,7 +64,7 @@ export default buildConfig({
   globals: [SiteConfig, Header, Footer, Hero, Social],
   plugins: [
     formBuilderPlugin({
-      defaultToEmail: "davide.fantauzzi02@gmail.com",
+      defaultToEmail: "contactme@davidefantauzzi.me",
       // `confirmationMessage` del plugin è required e blocca il salvataggio del form in admin.
       // Il frontend non lo usa (i feedback sono toast, testo dal global Social) → reso opzionale
       // e sempre nascosto. Non lo rimuoviamo del tutto per non forzare un drop di colonna su Neon.

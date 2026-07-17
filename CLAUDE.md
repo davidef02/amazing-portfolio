@@ -33,10 +33,10 @@ Multi-agent `Workflow` runs are long + token-heavy; a token/session limit mid-ru
 
 ## Release status — LIVE (released 2026-07-16)
 
-Live at **https://www.davidefantauzzi.me**. Deployed from the `prod` branch.
+Live at **https://davidefantauzzi.me** (apex, no www). Deployed from the `prod` branch.
 
 **Production stack:**
-- **Domain** — `davidefantauzzi.me` (bought on Cheapname). Served at `www.davidefantauzzi.me`.
+- **Domain** — `davidefantauzzi.me` (bought on Cheapname). Served at the **apex** `davidefantauzzi.me`; `www` → 308 → apex (flipped on Vercel 2026-07-18 — apex is canonical everywhere: sitemap, canonical, hreflang, OG).
 - **DNS** — Cloudflare.
 - **Media storage** — Cloudflare R2 bucket (commit `feat: integrate Cloudflare R2 for media storage`). `next.config` `remotePatterns` allows the R2 host.
 - **Database** — **Neon** (Postgres). ⚠️ Earlier notes said Supabase — the DB is now **Neon**; treat any leftover Supabase reference as stale.
@@ -65,7 +65,7 @@ Notes:
 - **Middleware is `src/proxy.ts`** — Next 16 renamed `middleware.ts` → `proxy.ts`. Handles `/`→`/en` redirect + locale guard; its matcher excludes `admin`/`api`/`_next` and any dotted path, so `/sitemap.xml` + `/robots.txt` are not redirected.
 - **Frontend is fully SSG** (`/en`, `/it`; `dynamicParams=false`) → CMS content is baked at build time. Edits appear only via **on-demand revalidation** (`src/hooks/revalidate.ts`, wired into every frontend collection + global). ⚠️ Any NEW frontend collection/global MUST add these hooks, or its edits won't show without a redeploy. This is also why "content edited in admin doesn't appear on prod" until revalidation/redeploy.
 - **Sitemap/robots are native Next routes** (`src/app/sitemap.ts`, `src/app/robots.ts`) — NOT `next-sitemap` (removed). `public/sitemap.xml` + `public/robots.txt` are gitignored; never recommit them.
-- **`NEXT_PUBLIC_SERVER_URL` on Vercel MUST be `https://www.davidefantauzzi.me`** — it drives sitemap, canonical, hreflang and OG URLs (via `getServerSideURL()`). If unset it falls back to `VERCEL_PROJECT_PRODUCTION_URL` (`*.vercel.app`) or `http://localhost:3000`.
+- **`NEXT_PUBLIC_SERVER_URL` on Vercel MUST be `https://davidefantauzzi.me`** (apex, no www — updated 2026-07-18) — it drives sitemap, canonical, hreflang and OG URLs (via `getServerSideURL()`). If unset it falls back to `VERCEL_PROJECT_PRODUCTION_URL` (`*.vercel.app`) or `http://localhost:3000`.
 - **Locale switch** uses `next/link` (client nav, no full page reload); `<html data-scroll-behavior="smooth">` is set to silence the Next route-transition warning.
 - **Contact form** (form-builder, content lives in Neon): field Names are `name` (required by the `beforeEmail` subject), `contactFormEmail`, `contactFormMessage`. Field **Labels** and the Email 01 **Message** (`{{*:table}}`) are CMS content — re-enter them after any DB migration (they get wiped).
 

@@ -5,7 +5,7 @@ import type { Locale } from "@/i18n/config";
 // revalidation da ricordare. `{email}` e `{garante}` sono token sostituiti con i
 // rispettivi link dal renderer in page.tsx.
 
-export const PRIVACY_EMAIL = "davide.fantauzzi02@gmail.com";
+export const PRIVACY_EMAIL = "contactme@davidefantauzzi.me";
 export const GARANTE_URL = "https://www.garanteprivacy.it";
 
 type Block = { p: string } | { ul: string[] } | { dl: [string, string][] };
