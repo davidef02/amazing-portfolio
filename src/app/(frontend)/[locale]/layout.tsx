@@ -3,6 +3,7 @@ import { cn } from "@/utilities/ui";
 import { GeistMono } from "geist/font/mono";
 import { GeistSans } from "geist/font/sans";
 import React, { cache } from "react";
+import { Analytics } from "@vercel/analytics/next";
 import Toaster from "@/components/Toaster";
 import HashScroll from "@/components/HashScroll";
 import "./globals.css";
@@ -117,6 +118,7 @@ export default async function RootLayout({
         {children}
         <Toaster />
         <HashScroll />
+        <Analytics />
       </body>
     </html>
   );
