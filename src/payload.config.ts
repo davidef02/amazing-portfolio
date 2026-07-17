@@ -20,6 +20,7 @@ import { Social } from "@/globals/Social";
 import { resendAdapter } from "@payloadcms/email-resend";
 import { Tags } from "@/collections/Tags";
 import { s3Storage } from "@payloadcms/storage-s3";
+import { cleanupSubmissions } from "./endpoints/cleanupSubmissions";
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
@@ -48,6 +49,9 @@ export default buildConfig({
     },
   }),
   collections: [Media, Users, Skills, Projects, Experiences, Tags],
+  // cleanup automatico dei messaggi del form oltre il periodo di conservazione (Privacy Policy §06),
+  // invocato da Vercel Cron (vedi vercel.json). Montato su /api/cron/cleanup-submissions.
+  endpoints: [cleanupSubmissions],
   localization: {
     locales: [
       { code: "en", label: "English" },

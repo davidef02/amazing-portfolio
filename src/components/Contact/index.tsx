@@ -21,7 +21,7 @@ export default async function Contact({ locale }: { locale: Locale }) {
       <SectionHeading num="04" title={sectionTitle} />
       <div className="grid grid-cols-[repeat(auto-fit,minmax(290px,1fr))] items-start gap-6">
         {/* form: FE in contact-client, submit = seam (lo fai tu) */}
-        {form && <ContactClient form={form} messages={social.toast} t={t.contact} />}
+        {form && <ContactClient form={form} messages={social.toast} t={t.contact} locale={locale} />}
 
         {/* elsewhere */}
         <div className="flex flex-col gap-3.5 rounded-base border-2 border-black bg-white p-[22px] shadow-brutal">

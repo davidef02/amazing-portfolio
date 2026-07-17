@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import type { Form, Social } from "@/payload-types";
+import type { Locale } from "@/i18n/config";
 
 function Field({ id, label, children }: { id: string; label: string; children: ReactNode }) {
   return (
@@ -26,13 +27,23 @@ export default function ContactClient({
   form,
   messages,
   t,
+  locale,
 }: {
   form: Form;
   // contenuto toast dal CMS (Social.toast, localizzato) — sempre presente
   messages: Social["toast"];
-  t: { send: string; sending: string };
+  t: {
+    send: string;
+    sending: string;
+    consentBefore: string;
+    consentLink: string;
+    consentAfter: string;
+  };
+  locale: Locale;
 }) {
   const [pending, setPending] = useState(false);
+  // consenso privacy: gate all'invio (obbligatorio, solo frontend)
+  const [agreed, setAgreed] = useState(false);
 
   // best practice form-builder: POST /api/form-submissions con { form, submissionData }
   const submit = async (formEl: HTMLFormElement) => {
@@ -50,6 +61,7 @@ export default function ContactClient({
       });
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       formEl.reset();
+      setAgreed(false);
       toast.success(messages.successTitle, { description: messages.successMessage });
     } catch {
       toast.error(messages.errorTitle, { description: messages.errorMessage });
@@ -104,9 +116,44 @@ export default function ContactClient({
         return null;
       })}
 
+      {/* consenso privacy: obbligatorio, gate all'invio */}
+      <label className="flex cursor-pointer items-start gap-2.5 text-[13px] font-medium leading-[1.45]">
+        <span className="relative mt-px flex-none">
+          <input
+            type="checkbox"
+            name="privacy-consent"
+            checked={agreed}
+            onChange={(e) => setAgreed(e.target.checked)}
+            required
+            aria-describedby="cf-consent-text"
+            className="peer h-[18px] w-[18px] cursor-pointer appearance-none rounded-[3px] border-2 border-black bg-white transition-brutal checked:bg-main focus-visible:focus-brutal"
+            suppressHydrationWarning
+          />
+          <span
+            aria-hidden
+            className="pointer-events-none absolute inset-0 hidden items-center justify-center text-[12px] font-black leading-none peer-checked:flex"
+          >
+            ✓
+          </span>
+        </span>
+        <span id="cf-consent-text">
+          {t.consentBefore}{" "}
+          <a
+            href={`/${locale}/privacy`}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={(e) => e.stopPropagation()}
+            className="font-bold underline decoration-2 underline-offset-2 transition-brutal hover:bg-main focus-visible:focus-brutal"
+          >
+            {t.consentLink}
+          </a>{" "}
+          {t.consentAfter}
+        </span>
+      </label>
+
       <Button
         type="submit"
-        disabled={pending}
+        disabled={pending || !agreed}
         className="h-auto px-5.5 py-3.5 text-[15px] font-black uppercase tracking-wide"
       >
         {pending ? t.sending : t.send}
