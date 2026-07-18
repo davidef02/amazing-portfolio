@@ -33,7 +33,7 @@ export default function ProjectCard({ project: p, index }: { project: Project; i
         }
       }}
       className={cn(
-        "relative h-[272px] cursor-pointer transition-transform duration-200 [perspective:1200px] hover:rotate-0",
+        "relative min-h-[272px] cursor-pointer transition-transform duration-300 ease-out will-change-transform [perspective:1200px] hover:rotate-0",
         "focus-visible:outline-[3px] focus-visible:outline-dashed focus-visible:outline-black focus-visible:outline-offset-[6px]",
         TILT[index % TILT.length]
       )}
@@ -49,14 +49,19 @@ export default function ProjectCard({ project: p, index }: { project: Project; i
       {/* wrapper flip: rotateY(180) quando flipped */}
       <div
         className={cn(
-          "absolute inset-0 transition-transform duration-[450ms] [transform-style:preserve-3d]",
+          "relative h-full transition-transform duration-[450ms] [transform-style:preserve-3d]",
           flipped && "[transform:rotateY(180deg)]"
         )}
       >
         {/* FRONT */}
         <div className="absolute inset-0 flex flex-col gap-2.5 rounded-base border-2 border-black bg-white p-3.5 shadow-brutal [backface-visibility:hidden]">
           <div className="relative flex-1 overflow-hidden rounded-base border-2 border-black">
-            <Media resource={p.screenshot} fill imgClassName="object-cover" />
+            <Media
+              resource={p.screenshot}
+              fill
+              size="(min-width: 1024px) 320px, (min-width: 640px) 45vw, 92vw"
+              imgClassName="object-cover"
+            />
           </div>
           <div className="flex items-center justify-between gap-2.5">
             <div className="flex items-center gap-2">
@@ -84,10 +89,9 @@ export default function ProjectCard({ project: p, index }: { project: Project; i
         <div
           className={cn(
             BG[p.mainColor],
-            "absolute inset-0 flex flex-col gap-2.5 rounded-base border-2 border-black p-4 shadow-brutal [backface-visibility:hidden] [transform:rotateY(180deg)]"
+            "flex min-h-full flex-col gap-2.5 rounded-base border-2 border-black p-4 shadow-brutal [backface-visibility:hidden] [transform:rotateY(180deg)]"
           )}
         >
-          <span className="font-mono text-[10.5px] font-bold">{p.slug}</span>
           <h3 className="text-[19px] font-black uppercase">{p.title}</h3>
           <RichText
             data={p.description}
